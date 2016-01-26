@@ -8,4 +8,19 @@
     <string name="privacy_policy"><a href="https://stripe.com/connect/account-terms">Privacy Policy</a></string>
     <string name="contactNumber"><b>0321-3399322</b></string>
     <string name="contactNumberText">If you need to contact a specific department - Call our main Line at  and ask for the following extensions :</string>
+
+    <string name="select">Choose a country</string>
+
+    <string-array name="country_array">
+        <item>Greece</item>
+        <item>United Kingdom</item>
+        <item>Italy</item>
+        <item>France</item>
+        <item>Germany</item>
+        <item>Turkey</item>
+        <item>Poland</item>
+        <item>India</item>
+    </string-array>
+
+
 </resources>

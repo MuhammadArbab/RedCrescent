@@ -10,6 +10,7 @@
         android:textSize="27dip"
         android:paddingTop="25dp"
         android:textColor="#666666"
+        android:layout_gravity="center_horizontal"
         android:text="Get Appointment" />
 
     <TextView
@@ -19,8 +20,7 @@
         android:textSize="17dip"
         android:paddingTop="10dp"
         android:textColor="#666666"
-        android:text="Red Crescent Hospital,online appoinment center will attempt to contact you
-                      on the same day of your appointment request or the following buisness day." />
+        android:text="Red Crescent Hospital,online appoinment center will attempt to contact you on the same day of your appointment request or the following buisness day." />
 
     <TextView
         android:layout_width="match_parent"
@@ -29,8 +29,7 @@
         android:textSize="17dip"
         android:paddingTop="10dp"
         android:textColor="#666666"
-        android:text="It is the medical emergency,please call our Emergency Department of contact your nearest doctor
-                      or call 0321-3399322 immedietly." />
+        android:text="It is the medical emergency,please call our Emergency Department of contact your nearest doctor or call 0321-3399322 immedietly." />
 
     <TextView
         android:layout_width="wrap_content"
@@ -39,6 +38,7 @@
         android:textSize="17dip"
         android:textStyle="bold"
         android:textColor="#666666"
+
         android:text="Please provide the following contact information to request aan appoinment. (*Feild is required)"
         />
 
@@ -50,4 +50,443 @@
         android:paddingTop="10dp"
         android:textColor="#666666"
         android:text="If a new patient or first time login,please fill following" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Email Address:" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_Name"
+        android:hint="e.g Abdullah..."
+        android:layout_marginLeft="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:layout_marginRight="15dp"
+        android:textColorHint="#666666"
+        android:inputType="textCapWords"
+        android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Password:" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_Email"
+        android:hint="e.g Abdullah..."
+        android:layout_marginLeft="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:layout_marginRight="15dp"
+        android:textColorHint="#666666"
+        android:inputType="textCapWords"
+        android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Full Name:" />
+
+    <EditText
+
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_Confirm_Email"
+        android:hint="e.g Abdullah..."
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:textColorHint="#666666"
+        android:inputType="textCapWords"
+        android:background="@drawable/mystyle"/>
+
+    <LinearLayout android:id="@+id/mainLayout_"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:weightSum="10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:textSize="17dip"
+            android:textColor="#666666"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="8"
+            android:text="DoB:" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="2"
+            android:background="#ffffff">
+
+            <Spinner
+                android:id="@+id/spinnerDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:prompt="@string/spinner_title"
+                android:background="@android:drawable/btn_dropdown"
+                />
+
+            <Spinner
+                android:id="@+id/spinnerMonth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:prompt="@string/spinner_title"
+                android:background="@android:drawable/btn_dropdown"
+                />
+
+            <Spinner
+                android:id="@+id/spinnerYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:prompt="@string/spinner_title"
+                android:background="@android:drawable/btn_dropdown"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--<Spinner-->
+        <!--android:id="@+id/eventSpinner"-->
+        <!--android:entries="@array/country_array"-->
+        <!--android:prompt="@string/select"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:background="@android:color/holo_green_dark"-->
+        <!--android:popupBackground="@android:color/holo_green_dark"-->
+        <!--android:spinnerMode="dropdown" />-->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Gender:" />
+
+    <RadioGroup
+        android:id="@+id/radioSex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentLeft="true"
+        >
+
+        <RadioButton
+            android:id="@+id/radioMale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#666666"
+            android:text="Male"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radioFemale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#666666"
+            android:text="Female" />
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Address:" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:lines="2"
+        android:layout_height="40dp"
+        android:id="@+id/input_Address"
+        android:hint="e.g Abdullah..."
+        android:layout_marginLeft="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:layout_marginRight="15dp"
+        android:textColorHint="#666666"
+        android:inputType="textMultiLine"
+        android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="*Country:" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_CountryName"
+        android:hint="e.g Abdullah..."
+        android:layout_marginLeft="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:layout_marginRight="15dp"
+        android:textColorHint="#666666"
+        android:inputType="textCapWords"
+        android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Phone Number:" />
+
+    <EditText
+
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_PhoneNumber"
+        android:hint="e.g Abdullah..."
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:textColorHint="#666666"
+        android:inputType="textCapWords"
+        android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="27dip"
+        android:paddingTop="25dp"
+        android:textColor="#666666"
+        android:layout_gravity="center_horizontal"
+        android:text="Appointment Information" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Speciality:" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Appointment Date:" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Specialist:" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="15dp"
+        android:weightSum="10">
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:textSize="17dip"
+            android:layout_gravity="center_vertical"
+            android:textColor="#666666"
+            android:layout_weight="6"
+            android:text="Prefered Time:" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="4"
+            android:background="#123456">
+
+            <RadioGroup
+                android:id="@+id/radioTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentLeft="true"
+                >
+
+                <RadioButton
+                    android:id="@+id/radioAnyTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666666"
+                    android:text="AnyTime"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/radioPM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666666"
+                    android:text="PM" />
+
+                <RadioButton
+                    android:id="@+id/radioAM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#666666"
+                    android:text="AM" />
+
+            </RadioGroup>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Appointment Reason:" />
+
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:gravity="top|left"
+        android:id="@+id/input_AppointmentReason"
+        android:hint="e.g Your Message..."
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:textColorHint="#666666"
+        android:inputType="textMultiLine"
+        android:background="@drawable/mystyle"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+
+        <CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:layout_marginTop="15dp"
+            android:background="#666666"
+            />
+
+        <TextView
+            android:id="@+id/agreeTermsText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Agree to recieve Red Crescent Hospital SMS Alerts"
+            android:paddingLeft="15dp"
+            android:textSize="17dip"
+            android:paddingTop="10dp"
+            android:textColor="#666666"
+            android:layout_marginLeft="15dp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ffffff"
+        android:layout_marginTop="15dp">
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:layout_marginTop="15dp"
+            android:background="#666666"
+            />
+
+        <TextView
+            android:id="@+id/agreePolicyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="I have read and understood the terms and condition"
+            android:paddingLeft="15dp"
+            android:textSize="17dip"
+            android:paddingTop="10dp"
+            android:textColor="#666666"
+            android:layout_marginLeft="15dp"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="Submit" />
+
+    <LinearLayout android:id="@+id/mainLayout_"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+    </LinearLayout>
+
 </LinearLayout>

@@ -12,7 +12,10 @@ import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +31,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
     private LinearLayout mainLayout;
+    private RadioGroup radioSexGroup;
+    private RadioButton radioSexButton;
+    private String currentSex = "";
+
+
 
 
     @Override
@@ -131,8 +139,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     contactText.append(getText(R.string.contactNumber));
                     contactText.append("and ask for the following extensions :");
 
-
-
                     // Spinner element
                     Spinner spinner = (Spinner) inflatedLayout.findViewById(R.id.spinner);
 
@@ -146,7 +152,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     categories.add("General");
 
                     // Creating adapter for spinner
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, categories);
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, categories);
 
                     // Drop down layout style - list view with radio button
                     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -161,7 +167,90 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                     View inflatedLayout= inflater.inflate(R.layout.getappointed, null);
 
+                    // Spinner element
+                    Spinner spinnerDate = (Spinner) inflatedLayout.findViewById(R.id.spinnerDate);
+                    Spinner spinnerMonth = (Spinner) inflatedLayout.findViewById(R.id.spinnerMonth);
+                    Spinner spinnerYear = (Spinner) inflatedLayout.findViewById(R.id.spinnerYear);
+
+                    // Spinner click listener
+                    spinnerDate.setOnItemSelectedListener(MainActivity.this);
+                    spinnerMonth.setOnItemSelectedListener(MainActivity.this);
+
+                    // Spinner Drop down elements
+                    List<String> categories = new ArrayList<String>();
+                    categories.add("1");
+                    categories.add("2");
+                    categories.add("3");
+                    categories.add("4");
+                    categories.add("5");
+                    categories.add("5");
+
+                    // Creating adapter for spinner
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, categories);
+
+                    // Drop down layout style - list view with radio button
+                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    // attaching data adapter to spinner
+                    spinnerDate.setAdapter(dataAdapter);
+                    spinnerMonth.setAdapter(dataAdapter);
+                    spinnerYear.setAdapter(dataAdapter);
+
                     mainLayout.addView(inflatedLayout);
+                }else if (childPosition == 2){
+
+                    LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+                    View inflatedLayout= inflater.inflate(R.layout.finddoctor, null);
+
+                    GridView grid = (GridView) inflatedLayout.findViewById(R.id.gridView);
+
+                    final String[] letters = new String[] {
+                            "A", "B", "C", "D", "E",
+                            "F", "G", "H", "I", "J",
+                            "K", "L", "M", "N", "O",
+                            "P", "Q", "R", "S", "T",
+                            "U", "V", "W", "X", "Y", "Z"};
+
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.gridviewitem, letters);
+
+                    grid.setAdapter(adapter);
+
+                    grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                            Toast.makeText(getApplicationContext(),
+                                    ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                    Spinner spinnerSpeciality = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpeciality);
+                    Spinner spinnerLanguage = (Spinner) inflatedLayout.findViewById(R.id.spinnerLanguage);
+
+                    // Spinner click listener
+                    spinnerSpeciality.setOnItemSelectedListener(MainActivity.this);
+                    spinnerLanguage.setOnItemSelectedListener(MainActivity.this);
+
+                    // Spinner Drop down elements
+                    List<String> categories = new ArrayList<String>();
+                    categories.add("1");
+                    categories.add("2");
+                    categories.add("3");
+                    categories.add("4");
+                    categories.add("5");
+                    categories.add("5");
+
+                    // Creating adapter for spinner
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, categories);
+
+                    // Drop down layout style - list view with radio button
+                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+                    // attaching data adapter to spinner
+                    spinnerLanguage.setAdapter(dataAdapter);
+                    spinnerSpeciality.setAdapter(dataAdapter);
+
+                    mainLayout.addView(inflatedLayout);
+                    //mainLayout.setMinimumHeight(inflatedLayout.getMeasuredHeight());
                 }
 
                 return false;
@@ -202,5 +291,22 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void addListenerOnButton() {
+        radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
+        int selectedId = radioSexGroup.getCheckedRadioButtonId();
+        radioSexButton = (RadioButton) findViewById(selectedId);
+
+        currentSex =  radioSexButton.getText().toString();
+
+        Toast.makeText(MainActivity.this, radioSexButton.getText(), Toast.LENGTH_SHORT).show();
+
+    }
+
+    public void gridItemClickEvent(View v) {
+        // does something very interesting
+        Toast.makeText(getApplicationContext(),
+                ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
     }
 }
