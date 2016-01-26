@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">RedCrescent</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="spinner_title">Select Subject</string>
+    <string name="terms_of_use"><a href="http://stackoverflow.com/questions/9852184/android-textview-hyperlink?rq=1">Terms of User</a></string>
+    <string name="privacy_policy"><a href="https://stripe.com/connect/account-terms">Privacy Policy</a></string>
+    <string name="contactNumber"><b>0321-3399322</b></string>
+    <string name="contactNumberText">If you need to contact a specific department - Call our main Line at  and ask for the following extensions :</string>
+</resources>

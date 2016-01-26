@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="27dip"
+        android:paddingTop="25dp"
+        android:textColor="#666666"
+        android:text="Contact Us:" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Your Name:" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_Name"
+        android:hint="e.g Abdullah..."
+        android:layout_marginLeft="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:layout_marginRight="15dp"
+        android:textColorHint="#666666"
+        android:inputType="textCapWords"
+        android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Your Email:" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_Email"
+        android:hint="e.g Abdullah..."
+        android:layout_marginLeft="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:layout_marginRight="15dp"
+        android:textColorHint="#666666"
+        android:inputType="textCapWords"
+        android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Confirm Email:" />
+
+    <EditText
+
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_Confirm_Email"
+        android:hint="e.g Abdullah..."
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:textColorHint="#666666"
+        android:inputType="textCapWords"
+        android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Contact Number:" />
+
+    <EditText
+
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/input_Contac_tNumber"
+        android:hint="e.g Abdullah..."
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:textColorHint="#666666"
+        android:inputType="textCapWords"
+        android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Subject:" />
+
+    <!-- Spinner Element -->
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:prompt="@string/spinner_title"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Message:" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:paddingTop="5dp"
+        android:paddingLeft="5dp"
+        android:gravity="top|left"
+        android:id="@+id/input_Message"
+        android:hint="e.g Your Message..."
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:textColorHint="#666666"
+        android:inputType="textMultiLine"
+        android:background="@drawable/mystyle"/>
+
+    <LinearLayout android:id="@+id/mainLayout_"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#ffffff">
+
+        <CheckBox
+            android:id="@+id/checkBox"
+            android:layout_marginLeft="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:layout_marginTop="15dp"
+            android:background="#666666"
+            />
+
+        <TextView
+            android:id="@+id/agreeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:paddingLeft="15dp"
+            android:textSize="17dip"
+            android:paddingTop="10dp"
+            android:textColor="#666666"
+             />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:text="Submit" />
+
+    <TextView
+        android:id="@+id/contactNumberText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="15dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        />
+
+    <TextView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="17dip"
+        android:textStyle="bold"
+
+        android:textColor="#666666"
+        android:text="Google Map"
+        />
+
+
+</LinearLayout>

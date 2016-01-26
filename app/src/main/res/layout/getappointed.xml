@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="27dip"
+        android:paddingTop="25dp"
+        android:textColor="#666666"
+        android:text="Get Appointment" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Red Crescent Hospital,online appoinment center will attempt to contact you
+                      on the same day of your appointment request or the following buisness day." />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="It is the medical emergency,please call our Emergency Department of contact your nearest doctor
+                      or call 0321-3399322 immedietly." />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:textSize="17dip"
+        android:textStyle="bold"
+        android:textColor="#666666"
+        android:text="Please provide the following contact information to request aan appoinment. (*Feild is required)"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="If a new patient or first time login,please fill following" />
+</LinearLayout>
