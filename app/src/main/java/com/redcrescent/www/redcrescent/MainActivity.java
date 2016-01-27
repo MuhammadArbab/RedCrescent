@@ -1,12 +1,15 @@
 package com.redcrescent.www.redcrescent;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -20,9 +23,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MainActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
@@ -34,8 +48,28 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     private RadioGroup radioSexGroup;
     private RadioButton radioSexButton;
     private String currentSex = "";
+    private ProgressDialog progress;
 
-
+    private String urlString = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
+            + "email=" + "send2arbab@gmail.com"
+            + "&password=" + "12345"
+            + "&fullname=" + "ArbabMuhammad"
+            + "&day=" + "2"
+            + "&month=" + "4"
+            + "&year=" + "1990"
+            + "&gender=" + 1
+            + "&address=" + ""
+            + "&address1=" + ""
+            + "&country=" + "Pakistan"
+            + "&city=" + "karachi"
+            + "&state=" + "test state"
+            + "&pcode=" + "12345"
+            + "&pcnum=" + "03444444444"
+            + "&specialist=" + "3"
+            + "&apdate=" + "30-12-2015"
+            + "&aptime=" + "1"
+            + "&reason=" + "testing reason"
+            + "&sms=" + "1";
 
 
     @Override
@@ -122,6 +156,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                 //mainLayout.getLayoutParams().height = (50+6)*4;
 
+                mainLayout.removeAllViews();
+
                 if (childPosition == 0){
 
                     LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
@@ -166,6 +202,19 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                 {
                     LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                     View inflatedLayout= inflater.inflate(R.layout.getappointed, null);
+
+                    Button submitButton =  (Button) inflatedLayout.findViewById(R.id.submit);
+                    submitButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            // call AsynTask to perform network operation on separate thread
+                            new HttpAsyncTask().execute(urlString);
+
+
+                            //http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?email=mrashid.bsse@gmail.com&password=123&fullname=Rashid&day=05&month=01&year=1988&gender=1&address=Future%20colon&address1=Karchi&country=Malaysia&city=karachi&state=1&pcode=72150&pcnum=0333562634&specialist=3&apdate=30-12-2015&aptime=1&reason=testing&sms=1
+                        }
+                    });
 
                     // Spinner element
                     Spinner spinnerDate = (Spinner) inflatedLayout.findViewById(R.id.spinnerDate);
@@ -308,5 +357,96 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         // does something very interesting
         Toast.makeText(getApplicationContext(),
                 ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+    }
+
+    private class emailVerificationResult {
+        public String statusNbr;
+        public String hygieneResult;
+    }
+
+    private class HttpAsyncTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress = new ProgressDialog(MainActivity.this);
+            progress.setMessage("Loading...");
+            progress.setIndeterminate(false);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setCancelable(true);
+            progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String data = getJSON(urlString,10000);
+            return  data;
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+
+            progress.dismiss();
+
+            String responceMessage = "";
+
+            try {
+                JSONObject  jsonRootObject = new JSONObject(result);
+
+                responceMessage = jsonRootObject.getString("message");
+
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            Toast.makeText(getApplicationContext(),
+                    (responceMessage), Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    public String getJSON(String url, int timeout) {
+        HttpURLConnection c = null;
+        try {
+            URL u = new URL(url);
+            c = (HttpURLConnection) u.openConnection();
+            c.setRequestMethod("GET");
+            c.setRequestProperty("Content-length", "0");
+            c.setUseCaches(false);
+            c.setAllowUserInteraction(false);
+            c.setConnectTimeout(timeout);
+            c.setReadTimeout(timeout);
+            c.connect();
+            int status = c.getResponseCode();
+
+            switch (status) {
+                case 200:
+                case 201:
+                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                    StringBuilder sb = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        sb.append(line+"\n");
+                    }
+                    br.close();
+                    return sb.toString();
+            }
+
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            if (c != null) {
+                try {
+                    c.disconnect();
+                } catch (Exception ex) {
+                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return null;
     }
 }
