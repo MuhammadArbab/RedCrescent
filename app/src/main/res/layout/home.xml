@@ -7,8 +7,7 @@
     <LinearLayout android:id="@+id/mainLayout_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#000000">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="match_parent"
@@ -20,7 +19,8 @@
             android:paddingRight="10dp"
             android:lines="2"
             android:gravity="center_horizontal"
-            android:text="Getting to know red creascent hospital" />
+            android:text="Getting to know red creascent hospital"
+            android:textColor="#666666"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -31,54 +31,8 @@
             android:paddingTop="5dp"
             android:paddingBottom="25dp"
             android:lines="5"
+            android:textColor="#666666"
             android:text="Getting to know red creascent hospital Gsdf aajksdf kads kfhads fkasdhkfahskdf kasdhfkja ksdjf  askdfasdkfasdf asdkjfjasdfjkasdfkjasf s df asdfsdakf ds  dfksdds  k" />
-
-
-
     </LinearLayout>
 
 </LinearLayout>
-
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:layout_height="180dp"-->
-    <!--android:background="#000000"-->
-    <!--android:orientation="vertical"-->
-    <!--android:weightSum="100" >-->
-
-    <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
-        <!--&lt;!&ndash;android:id="@+id/linearLayoutLeftBar"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_width="fill_parent"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_height="fill_parent"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:orientation="vertical"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:layout_weight="50"&ndash;&gt;-->
-        <!--&lt;!&ndash;android:background="#ffffff" >&ndash;&gt;-->
-    <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
-
-<!--</LinearLayout>-->
-
-<!--<?xml version="1.0" encoding="utf-8"?>-->
-<!--<LinearLayout-->
-    <!--xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--android:layout_width="fill_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:orientation="vertical"-->
-    <!--android:weightSum="30"-->
-    <!--android:background="#654321">-->
-
-    <!--<LinearLayout-->
-        <!--android:id="@+id/linearLayoutLeftBar"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_weight="10"-->
-        <!--android:background="#7FFF00" >-->
-    <!--</LinearLayout>-->
-
-    <!--<TextView-->
-        <!--android:id="@+id/mytext"-->
-        <!--android:text="You inflated me..i added to u r layout"-->
-        <!--android:layout_weight="20"-->
-        <!--android:layout_width="fill_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--/>-->
-<!--</LinearLayout>-->
