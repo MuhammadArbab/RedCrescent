@@ -704,33 +704,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
-
-//            // Spinner adapter
-//            spinnerLanguage
-//                    .setAdapter(new ArrayAdapter<String>(MainActivity.this,
-//                            android.R.layout.simple_spinner_dropdown_item,
-//                            langList));
-//
-//            // Spinner on item click listener
-//            spinnerLanguage
-//                    .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-//
-//                        @Override
-//                        public void onItemSelected(AdapterView<?> arg0,
-//                                                   View arg1, int position, long arg3) {
-//                            // TODO Auto-generated method stub
-//
-//                            lng_id = languages.get(position).getId();
-//                        }
-//
-//                        @Override
-//                        public void onNothingSelected(AdapterView<?> arg0) {
-//                            // TODO Auto-generated method stub
-//                        }
-//                    });
-
         }
     }
 
@@ -745,7 +718,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
         int totalHeight = 0;
         View view = null;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
+        for (int i = 0; i < listAdapter.getCount() ; i++) {
             view = listAdapter.getView(i, view, listView);
             if (i == 0)
                 view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -754,7 +727,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             totalHeight += view.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1 )) + 300;
         listView.setLayoutParams(params);
     }
 }
