@@ -216,8 +216,8 @@
                 android:textColor="#666666"
                 android:text="Female" />
         </RadioGroup>
-
         </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -231,6 +231,27 @@
         android:lines="2"
         android:layout_height="40dp"
         android:id="@+id/input_Address"
+        android:layout_marginLeft="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:layout_marginRight="15dp"
+        android:textColorHint="#666666"
+        android:inputType="textMultiLine"
+        android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Address:" />
+    <EditText
+        android:layout_width="fill_parent"
+        android:lines="2"
+        android:layout_height="40dp"
+        android:id="@+id/input_Address1"
         android:layout_marginLeft="15dp"
         android:singleLine="true"
         android:textColor="#666666"
@@ -379,7 +400,8 @@
         android:layout_height="wrap_content"
         android:prompt="@string/spinner_title"
         android:background="@android:drawable/btn_dropdown"
-        />
+        android:spinnerMode="dropdown"
+        android:popupBackground="@android:color/white" />
 
     <TextView
         android:layout_width="match_parent"
@@ -400,6 +422,27 @@
         android:textColor="#666666"
         android:textColorHint="#666666"
         android:background="@drawable/mystyle"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:textSize="17dip"
+        android:paddingTop="10dp"
+        android:textColor="#666666"
+        android:text="Specialist:" />
+
+
+    <Spinner
+        android:id="@+id/spinnerSpecialiest"
+        android:layout_width="fill_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_height="wrap_content"
+        android:prompt="@string/spinner_title"
+        android:background="@android:drawable/btn_dropdown"
+        android:spinnerMode="dropdown"
+        android:popupBackground="@android:color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -492,7 +535,7 @@
         >
 
         <CheckBox
-            android:id="@+id/checkBox1"
+            android:id="@+id/checkBoxSMS"
             android:layout_marginLeft="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

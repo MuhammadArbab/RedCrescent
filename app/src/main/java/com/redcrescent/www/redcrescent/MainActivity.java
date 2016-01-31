@@ -13,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -56,6 +58,16 @@ import java.util.logging.Logger;
 
 public class MainActivity extends Activity implements AdapterView.OnItemSelectedListener {
 
+    private class MyWebViewClient extends WebViewClient {
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+    }
+
+    String genderString = "1";
+
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
@@ -63,6 +75,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     private LinearLayout mainLayout;
     private RadioGroup radioSexGroup;
     private RadioButton radioSexButton;
+
+    private RadioGroup radioTimeGroup;
+    private RadioButton radioTimeButton;
+
     private String currentSex = "";
     private ProgressDialog progress;
     String contactSubject = "";
@@ -70,24 +86,35 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     String dayString = "";
     String monthString = "";
     String yearString = "";
+    String dateString = "";
+
+    String selectedSex = "";
+    String selectedTime = "";
+    String smsStatus = "";
 
     static final String[] Months = new String[] { "Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"};
 
     ArrayList<LanguageModal> languages;
     ArrayList<String> langList;
+    ArrayList<String> specialistList;
     Spinner spinnerLanguage;
+    Spinner spinnerGender;
     private String lng_id = "";
 
 
     ArrayList<SpecialityModal> specialities;
     ArrayList<String> specialityList;
     Spinner spinnerSpeciality;
+    Spinner spinnerSpecialiest;
     private String speciality_id = "";
 
     ArrayList<DoctorModal> doctors;
     ArrayList<String> doctorsList;
     private CustomAdapter adapter;
     ListView doctorsListView;
+
+    private String specialiestId = "";
+
 
     private String urlString = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
             + "email=" + "send2arbab@gmail.com"
@@ -215,14 +242,38 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                 {
                     LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                     View inflatedLayout= inflater.inflate(R.layout.getappointed, null);
+                    //radioSexGroup = (CheckBox) inflatedLayout.findViewById(R.id.checkBoxSMS);
+                    radioSexGroup = (RadioGroup) inflatedLayout.findViewById(R.id.radioSex);
+                    radioSexGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(RadioGroup group, int checkedId) {
 
-                    EditText email = (EditText) inflatedLayout.findViewById(R.id.input_Email);
-                    EditText password = (EditText) inflatedLayout.findViewById(R.id.input_Pasword);
-                    EditText name = (EditText) inflatedLayout.findViewById(R.id.input_Name);
-                    EditText address = (EditText) inflatedLayout.findViewById(R.id.input_Address);
-                    final EditText country = (EditText) inflatedLayout.findViewById(R.id.input_CountryName);
-                    EditText phoneNumber = (EditText) inflatedLayout.findViewById(R.id.input_PhoneNumber);
+
+                            //selectedSex = checkedId;
+                        }
+                    });
+                    radioTimeGroup = (RadioGroup) inflatedLayout.findViewById(R.id.radioTime);
+                    radioTimeGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(RadioGroup group, int checkedId) {
+                            //selectedTime = checkedId;
+                        }
+                    });
+
+                    final EditText email = (EditText) inflatedLayout.findViewById(R.id.input_Email);
+                    final EditText password = (EditText) inflatedLayout.findViewById(R.id.input_Pasword);
+                    final EditText name = (EditText) inflatedLayout.findViewById(R.id.input_Name);
+                    final EditText address = (EditText) inflatedLayout.findViewById(R.id.input_Address);
+                    final EditText address1 = (EditText) inflatedLayout.findViewById(R.id.input_Address1);
+                    final EditText phoneNumber = (EditText) inflatedLayout.findViewById(R.id.input_PhoneNumber);
                     final LinearLayout parentView = (LinearLayout) inflatedLayout.findViewById(R.id.subFeildsParent);
+
+                    final EditText country = (EditText) inflatedLayout.findViewById(R.id.input_CountryName);
+                    final EditText city = (EditText) inflatedLayout.findViewById(R.id.input_City);
+                    final EditText state = (EditText) inflatedLayout.findViewById(R.id.input_State);
+                    final EditText zip = (EditText) inflatedLayout.findViewById(R.id.input_ZipCode);
+
+                    final EditText message = (EditText) inflatedLayout.findViewById(R.id.input_AppointmentReason);
 
                     phoneNumber.setOnTouchListener(new View.OnTouchListener() {
                         @Override
@@ -235,7 +286,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                         }
                     });
 
+                    spinnerSpecialiest = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpecialiest);
                     spinnerSpeciality = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpeciality);
+
                     new HttpAsyncTaskForSpecialities().execute("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php");
 
                     Button submitButton =  (Button) inflatedLayout.findViewById(R.id.submit);
@@ -249,35 +302,35 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             String monthString = "";
                             String yearString = "";
 
-                            private String urlString = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
+                            String contactUrll = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
                                     + "email=" + email.getText().toString()
                                     + "&password=" + password.getText().toString()
                                     + "&fullname=" + name.getText().toString()
                                     + "&day=" + dayString
-                                    + "&month=" + "4"
-                                    + "&year=" + "1990"
-                                    + "&gender=" + "1"
-                                    + "&address=" + ""
-                                    + "&address1=" + ""
-                                    + "&country=" + "Pakistan"
-                                    + "&city=" + "karachi"
-                                    + "&state=" + "test state"
-                                    + "&pcode=" + "12345"
-                                    + "&pcnum=" + "03444444444"
-                                    + "&specialist=" + "3"
-                                    + "&apdate=" + "30-12-2015"
-                                    + "&aptime=" + "1"
-                                    + "&reason=" + "testing reason"
-                                    + "&sms=" + "1";
+                                    + "&month=" + monthString
+                                    + "&year=" + yearString
+                                    + "&gender=" + selectedSex
+                                    + "&address=" + address.getText().toString()
+                                    + "&address1=" + address1.getText().toString()
+                                    + "&country=" + country.getText().toString()
+                                    + "&city=" + city.getText().toString()
+                                    + "&state=" + state.getText().toString()
+                                    + "&pcode=" + zip.getText().toString()
+                                    + "&pcnum=" + phoneNumber.getText().toString()
+                                    + "&specialist=" + specialiestId
+                                    + "&apdate=" + dateString
+                                    + "&aptime=" + selectedTime
+                                    + "&reason=" + message.getText().toString()
+                                    + "&sms=" + smsStatus;
 
-                            new HttpAsyncTask().execute(urlString);
+                            new HttpAsyncTask().execute(contactUrll);
                             //http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?email=mrashid.bsse@gmail.com&password=123&fullname=Rashid&day=05&month=01&year=1988&gender=1&address=Future%20colon&address1=Karchi&country=Malaysia&city=karachi&state=1&pcode=72150&pcnum=0333562634&specialist=3&apdate=30-12-2015&aptime=1&reason=testing&sms=1
                         }
                     });
 
                     // Spinner element
                     // Set days
-                    ArrayList<String> days = new ArrayList<String>();
+                    final ArrayList<String> days = new ArrayList<String>();
                     for (int i = 1; i <= 31; i++) {
                         days.add(Integer.toString(i));
                     }
@@ -294,7 +347,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     spinnerMonth.setAdapter(adapterMonths);
 
                     // Set years
-                    ArrayList<String> years = new ArrayList<String>();
+                    final ArrayList<String> years = new ArrayList<String>();
                     int thisYear = Calendar.getInstance().get(Calendar.YEAR);
                     for (int i = 1900; i <= thisYear; i++) {
                         years.add(Integer.toString(i));
@@ -323,39 +376,32 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                     spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-                    @Override
-                    public void onItemSelected(AdapterView<?> arg0,
-                                               View arg1, int position, long arg3) {
-                        // TODO Auto-generated method stub
-                        monthString = mon.get(position);
-                    }
+                        @Override
+                        public void onItemSelected(AdapterView<?> arg0,
+                                                   View arg1, int position, long arg3) {
+                            // TODO Auto-generated method stub
+                            monthString = Months[position];
+                        }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> arg0) {
-                        // TODO Auto-generated method stub
-                    }
-                });
-                    spinnerYear.setOnItemSelectedListener(MainActivity.this);
+                        @Override
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                            // TODO Auto-generated method stub
+                        }
+                    });
+                    spinnerYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-//                    // Spinner Drop down elements
-//                    List<String> categories = new ArrayList<String>();
-//                    categories.add("1");
-//                    categories.add("2");
-//                    categories.add("3");
-//                    categories.add("4");
-//                    categories.add("5");
-//                    categories.add("5");
-//
-//                    // Creating adapter for spinner
-//                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, categories);
-//
-//                    // Drop down layout style - list view with radio button
-//                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//
-//                    // attaching data adapter to spinner
-//                    //spinnerDate.setAdapter(dataAdapter);
-//                    //spinnerMonth.setAdapter(dataAdapter);
-//                    //spinnerYear.setAdapter(dataAdapter);
+                        @Override
+                        public void onItemSelected(AdapterView<?> arg0,
+                                                   View arg1, int position, long arg3) {
+                            // TODO Auto-generated method stub
+                            yearString = years.get(position);
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                            // TODO Auto-generated method stub
+                        }
+                    });
 
                     final EditText setDate = (EditText) inflatedLayout.findViewById(R.id.date_setter);
                     final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -370,10 +416,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             myCal.set(Calendar.MONTH, monthOfYear);
                             myCal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                            String myFormat = "MM/dd/yy"; //In which you need put here
+                            String myFormat = "MM-dd-yy"; //In which you need put here
                             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-
                             setDate.setText(sdf.format(myCal.getTime()));
+
+                            dateString = sdf.format(myCal.getTime()).toString();
                         }
                     };
 
@@ -423,7 +470,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                         public void onClick(View view) {
 
                             EditText searchDoctor = (EditText) inflatedLayout.findViewById(R.id.doctorText);
-                            String url = "http://www.wellnessvisit.com/red-crescent/get-search-doctor.php?docName=" + searchDoctor.getText() + "&sp_id=" + speciality_id + "&lng_id=" + lng_id + "&gender=" + "1";
+                            String url = "http://www.wellnessvisit.com/red-crescent/get-search-doctor.php?docName=" + searchDoctor.getText() + "&sp_id=" + speciality_id + "&lng_id=" + lng_id + "&gender=" + genderString;
 
                             //String url_str = String.format("http://www.wellnessvisit.com/red-crescent/get-search-doctor.php?docName=%@&sp_id=%@&lng_id=%@&gender=%@",  searchDoctor.getText(), speciality_id,lng_id,"1");
                             new HttpAsyncTaskForDoctorsResult().execute(url);
@@ -440,19 +487,56 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             "U", "V", "W", "X", "Y", "Z"};
 
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.gridviewitem, letters);
-
                     grid.setAdapter(adapter);
 
                     grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//                            Toast.makeText(getApplicationContext(),
-//                                    ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                            new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-alphabet-search.php?skey=" + letters[position]);
                         }
                     });
+
+//                    grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+//
+//                            new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-alphabet-search.php?skey=" + letters[position]);
+////                            Toast.makeText(getApplicationContext(),
+////                                    ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
 
                     spinnerSpeciality = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpeciality);
                     spinnerLanguage = (Spinner) inflatedLayout.findViewById(R.id.spinnerLanguage);
 
+                    final ArrayList<String> genderList = new ArrayList<String>();
+                    genderList.add("Male");
+                    genderList.add("Female");
+
+                    // Creating adapter for spinner
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, genderList);
+                    // Drop down layout style - list view with radio button
+                    dataAdapter.setDropDownViewResource(R.layout.spinner_item);
+                    spinnerGender = (Spinner) inflatedLayout.findViewById(R.id.spinnerGender);
+
+                    spinnerGender.setAdapter(dataAdapter);
+
+                    spinnerGender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                            if (genderList.get(position).equalsIgnoreCase("Male")){
+                                genderString = "1";
+                            }else {
+                                genderString = "2";
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
                     // Spinner click listener
                     //spinnerSpeciality.setOnItemSelectedListener(MainActivity.this);
                     //spinnerLanguage.setOnItemSelectedListener(MainActivity.this);
@@ -466,11 +550,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     categories.add("5");
                     categories.add("5");
 
-                    // Creating adapter for spinner
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, categories);
-
-                    // Drop down layout style - list view with radio button
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                     // attaching data adapter to spinner
                     //spinnerLanguage.setAdapter(dataAdapter);
@@ -482,6 +561,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                     LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                     View inflatedLayout= inflater.inflate(R.layout.contact_us, null);
+
+                    final WebView mapView = (WebView) inflatedLayout.findViewById(R.id.webView1);
+                    mapView.setWebViewClient(new MyWebViewClient());
+                    mapView.loadUrl("www.google.com");
 
                     final EditText name = (EditText) inflatedLayout.findViewById(R.id.input_Name);
                     final EditText email = (EditText) inflatedLayout.findViewById(R.id.input_Email);
@@ -503,15 +586,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                                 if ( acceptedAgreement.isChecked()){
 
-                                    String url = "//http://www.wellnessvisit.com/red-crescent/docontactus.php?yname=" + name.getText().toString() + "&email=" + email.getText().toString() + "&cn=" + phoneNumber.getText().toString() + "&subject=" + contactSubject +"&msg=" + message.getText().toString();
+                                    String url = "http://www.wellnessvisit.com/red-crescent/docontactus.php?yname=" + name.getText().toString() + "&email=" + email.getText().toString() + "&cn=" + phoneNumber.getText().toString() + "&subject=" + contactSubject +"&msg=" + message.getText().toString();
                                     new HttpAsyncTask().execute(url);
+
                                 }else {
-
                                     Toast.makeText(MainActivity.this, "Please check that you accpet terma and conditions", Toast.LENGTH_LONG).show();
-
                                 }
-
-
                             }else {
 
                                 Toast.makeText(MainActivity.this, "Email entered does not match or not a valid one..", Toast.LENGTH_LONG).show();
@@ -560,10 +640,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     categories.add("General");
 
                     // Creating adapter for spinner
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, categories);
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.leftspinneritem, categories);
 
                     // Drop down layout style - list view with radio button
-                    dataAdapter.setDropDownViewResource(R.layout.spinner_item);
+                    dataAdapter.setDropDownViewResource(R.layout.leftspinneritem);
 
                     // attaching data adapter to spinner
                     spinner.setAdapter(dataAdapter);
@@ -613,15 +693,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         radioSexGroup = (RadioGroup) findViewById(R.id.radioSex);
         int selectedId = radioSexGroup.getCheckedRadioButtonId();
         radioSexButton = (RadioButton) findViewById(selectedId);
-
         currentSex =  radioSexButton.getText().toString();
-
-//        Toast.makeText(MainActivity.this, radioSexButton.getText(), Toast.LENGTH_SHORT).show();
+//Toast.makeText(MainActivity.this, radioSexButton.getText(), Toast.LENGTH_SHORT).show();
 
     }
 
     public void gridItemClickEvent(View v) {
         // does something very interesting
+        TextView temp = (TextView) v;
+        Log.e("",""+temp.getText().toString());
+        new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-alphabet-search.php?skey=" + temp.getText().toString());
 //        Toast.makeText(getApplicationContext(),
 //                ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
     }
@@ -646,7 +727,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
         @Override
         protected String doInBackground(String... urls) {
-            String data = getJSON(urlString,10000);
+            String data = getJSON(urls[0],10000);
             return  data;
         }
         // onPostExecute displays the results of the AsyncTask.
@@ -774,6 +855,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             // TODO Auto-generated method stub
 
                             speciality_id = specialities.get(position).getId();
+                            new HttpAsyncTaskForSepcielistDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-doctor-by-speciality.php?sp_id=" + speciality_id);
                         }
 
                         @Override
@@ -809,7 +891,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
             progress.dismiss();
             String responceMessage = "";
-
             languages = new ArrayList<LanguageModal>();
             langList = new ArrayList<String>();
 
@@ -828,13 +909,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     // Populate spinner with country names
                     langList.add(jsonobject.optString("value"));
                 }
-
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-
 
             // Spinner adapter
             spinnerLanguage
@@ -863,7 +940,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         }
     }
 
-    private class HttpAsyncTaskForDoctorsResult extends AsyncTask<String, Void, String> {
+    private class HttpAsyncTaskForGridDoctorsResult extends AsyncTask<String, Void, String> {
 
         @Override
         protected void onPreExecute() {
@@ -905,16 +982,186 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                     doctors.add(doctor);
 
+                    specialistList.add(jsonobject.optString("DocName"));
+                    // Populate spinner with country names
+                    //doctorsList.add(jsonobject.optString("value"));
+                }
+
+                // Spinner adapter
+                spinnerSpecialiest
+                        .setAdapter(new ArrayAdapter<String>(MainActivity.this,
+                                R.layout.spinner_bigger_item,
+                                specialistList));
+
+                // Spinner on item click listener
+                spinnerSpecialiest
+                        .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                            @Override
+                            public void onItemSelected(AdapterView<?> arg0,
+                                                       View arg1, int position, long arg3) {
+                                // TODO Auto-generated method stub
+
+                                specialiestId = doctors.get(position).getdoctorName();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> arg0) {
+                                // TODO Auto-generated method stub
+                            }
+                        });
+
+                adapter = new CustomAdapter(MainActivity.this, doctors);
+                doctorsListView.setAdapter(adapter);
+                setListViewHeightBasedOnChildren(doctorsListView);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private class HttpAsyncTaskForDoctorsResult extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress = new ProgressDialog(MainActivity.this);
+            progress.setMessage("Loading...");
+            progress.setIndeterminate(false);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setCancelable(true);
+            progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String data = getJSON(urls[0], 10000);
+            return  data;
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+
+            progress.dismiss();
+            String responceMessage = "";
+
+            doctors = new ArrayList<DoctorModal>();
+            //langList = new ArrayList<String>();
+
+            try {
+                JSONArray jsonArray = new JSONArray(result);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonobject = jsonArray.getJSONObject(i);
+
+                    DoctorModal doctor = new DoctorModal();
+                    doctor.setdoctorName(jsonobject.optString("DocName"));
+                    doctor.seteducationss(jsonobject.optString("specialities"));
+                    doctor.setSpecialities(jsonobject.optString("educations"));
+                    doctor.setimgSrc(jsonobject.optString("imgSrc"));
+
+                    doctors.add(doctor);
+
                     // Populate spinner with country names
                     //doctorsList.add(jsonobject.optString("value"));
                 }
 
                 adapter = new CustomAdapter(MainActivity.this, doctors);
                 doctorsListView.setAdapter(adapter);
-
                 setListViewHeightBasedOnChildren(doctorsListView);
 
             } catch (JSONException e) {
+                String abc = e.getMessage();
+
+                if (abc.contains("not found"))
+                {
+                    Toast.makeText(MainActivity.this,
+                            "No record found",
+                            Toast.LENGTH_SHORT).show();
+
+                }
+                e.printStackTrace();
+            }
+        }
+    }
+    private class HttpAsyncTaskForSepcielistDoctorsResult extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress = new ProgressDialog(MainActivity.this);
+            progress.setMessage("Loading...");
+            progress.setIndeterminate(false);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setCancelable(true);
+            progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String data = getJSON(urls[0], 10000);
+            return  data;
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+
+            progress.dismiss();
+            String responceMessage = "";
+
+            doctors = new ArrayList<DoctorModal>();
+            doctorsList = new ArrayList<String>();
+
+            try {
+                JSONArray jsonArray = new JSONArray(result);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonobject = jsonArray.getJSONObject(i);
+
+                    DoctorModal doctor = new DoctorModal();
+                    doctor.setdoctorName(jsonobject.optString("doctorFName") + jsonobject.optString("doctorLName"));
+                    doctor.seteducationss(jsonobject.optString("specialities"));
+                    doctor.setSpecialities(jsonobject.optString("educations"));
+                    doctor.setimgSrc(jsonobject.optString("imgSrc"));
+
+                    doctors.add(doctor);
+
+                    // Populate spinner with country names
+                    doctorsList.add(jsonobject.optString("doctorFName") + jsonobject.optString("doctorLName"));
+                }
+
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, doctorsList);
+
+                spinnerSpecialiest.setAdapter(adapter);
+
+                spinnerSpecialiest.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                });
+
+//                adapter = new CustomAdapter(MainActivity.this, doctors);
+//                doctorsListView.setAdapter(adapter);
+//                setListViewHeightBasedOnChildren(doctorsListView);
+
+            } catch (JSONException e) {
+                String abc = e.getMessage();
+
+                if (abc.contains("not found"))
+                {
+                    Toast.makeText(MainActivity.this,
+                            "No record found",
+                            Toast.LENGTH_SHORT).show();
+
+                }
                 e.printStackTrace();
             }
         }
@@ -940,7 +1187,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             totalHeight += view.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 300;
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount())) + 1000;
         listView.setLayoutParams(params);
     }
 

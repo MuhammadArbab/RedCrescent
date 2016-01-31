@@ -63,10 +63,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
         android:textSize="15dip"
         android:textStyle="bold"
         android:textColor="#666666"
-        android:text="To fond the right Red Crescent Hospital physician for you,choose one more of the following search categories"/>
+        android:text="To find the right Red Crescent Hospital physician for you,choose one more of the following search categories"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -129,36 +131,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:paddingLeft="15dp"
         android:textSize="17dip"
         android:textStyle="bold"
         android:textColor="#666666"
         android:text="Gender"/>
 
-    <RadioGroup
-        android:id="@+id/radioSex"
-        android:layout_width="wrap_content"
+    <Spinner
+        android:id="@+id/spinnerGender"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:prompt="@string/spinner_title"
         android:layout_marginLeft="15dp"
-        android:layout_alignParentLeft="true">
-
-        <RadioButton
-            android:id="@+id/radioMale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#666666"
-            android:text="Male"
-            android:checked="true" />
-
-        <RadioButton
-            android:id="@+id/radioFemale"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#666666"
-            android:text="Female" />
-
-    </RadioGroup>
+        android:layout_marginRight="15dp"
+        android:popupBackground="@android:color/white"
+        android:background="@android:drawable/btn_dropdown" />
 
     <Button
         android:id="@+id/searchBtn"
@@ -183,6 +170,13 @@
         android:layout_marginTop="10dp"
         android:background="#294E98"
         android:text="Show All" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:orientation="vertical">
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
