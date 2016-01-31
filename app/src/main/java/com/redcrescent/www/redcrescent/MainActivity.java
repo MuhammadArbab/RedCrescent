@@ -67,6 +67,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     private ProgressDialog progress;
     String contactSubject = "";
 
+    String dayString = "";
+    String monthString = "";
+    String yearString = "";
+
     static final String[] Months = new String[] { "Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"};
 
     ArrayList<LanguageModal> languages;
@@ -218,23 +222,18 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     EditText address = (EditText) inflatedLayout.findViewById(R.id.input_Address);
                     final EditText country = (EditText) inflatedLayout.findViewById(R.id.input_CountryName);
                     EditText phoneNumber = (EditText) inflatedLayout.findViewById(R.id.input_PhoneNumber);
-
                     final LinearLayout parentView = (LinearLayout) inflatedLayout.findViewById(R.id.subFeildsParent);
-
 
                     phoneNumber.setOnTouchListener(new View.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, MotionEvent event) {
 
                             if (country.getText().toString().equalsIgnoreCase("malaysia")){
-
                                 parentView.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
-
                             }
                             return false;
                         }
                     });
-
 
                     spinnerSpeciality = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpeciality);
                     new HttpAsyncTaskForSpecialities().execute("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php");
@@ -246,22 +245,43 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                             // call AsynTask to perform network operation on separate thread
 
-                             new HttpAsyncTask().execute(urlString);
+                            String dayString = "";
+                            String monthString = "";
+                            String yearString = "";
 
+                            private String urlString = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
+                                    + "email=" + email.getText().toString()
+                                    + "&password=" + password.getText().toString()
+                                    + "&fullname=" + name.getText().toString()
+                                    + "&day=" + dayString
+                                    + "&month=" + "4"
+                                    + "&year=" + "1990"
+                                    + "&gender=" + "1"
+                                    + "&address=" + ""
+                                    + "&address1=" + ""
+                                    + "&country=" + "Pakistan"
+                                    + "&city=" + "karachi"
+                                    + "&state=" + "test state"
+                                    + "&pcode=" + "12345"
+                                    + "&pcnum=" + "03444444444"
+                                    + "&specialist=" + "3"
+                                    + "&apdate=" + "30-12-2015"
+                                    + "&aptime=" + "1"
+                                    + "&reason=" + "testing reason"
+                                    + "&sms=" + "1";
 
+                            new HttpAsyncTask().execute(urlString);
                             //http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?email=mrashid.bsse@gmail.com&password=123&fullname=Rashid&day=05&month=01&year=1988&gender=1&address=Future%20colon&address1=Karchi&country=Malaysia&city=karachi&state=1&pcode=72150&pcnum=0333562634&specialist=3&apdate=30-12-2015&aptime=1&reason=testing&sms=1
                         }
                     });
 
                     // Spinner element
-
                     // Set days
                     ArrayList<String> days = new ArrayList<String>();
                     for (int i = 1; i <= 31; i++) {
                         days.add(Integer.toString(i));
                     }
                     ArrayAdapter<String> adapterDays = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, days);
-
                     Spinner spinnerDate = (Spinner) inflatedLayout.findViewById(R.id.spinnerDate);
                     spinnerDate.setAdapter(adapterDays);
 
@@ -285,33 +305,59 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     spinnerYear.setAdapter(adapter);
 
                     // Spinner click listener
-                    spinnerDate.setOnItemSelectedListener(MainActivity.this);
-                    spinnerMonth.setOnItemSelectedListener(MainActivity.this);
+                    spinnerDate
+                            .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-                    // Spinner Drop down elements
-                    List<String> categories = new ArrayList<String>();
-                    categories.add("1");
-                    categories.add("2");
-                    categories.add("3");
-                    categories.add("4");
-                    categories.add("5");
-                    categories.add("5");
+                                @Override
+                                public void onItemSelected(AdapterView<?> arg0,
+                                                           View arg1, int position, long arg3) {
+                                    // TODO Auto-generated method stub
+                                    dayString = days.get(position);
+                                }
 
-                    // Creating adapter for spinner
-                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, categories);
+                                @Override
+                                public void onNothingSelected(AdapterView<?> arg0) {
+                                    // TODO Auto-generated method stub
+                                }
+                            });
 
-                    // Drop down layout style - list view with radio button
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spinnerMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
-                    // attaching data adapter to spinner
-                    //spinnerDate.setAdapter(dataAdapter);
-                    //spinnerMonth.setAdapter(dataAdapter);
-                    //spinnerYear.setAdapter(dataAdapter);
+                    @Override
+                    public void onItemSelected(AdapterView<?> arg0,
+                                               View arg1, int position, long arg3) {
+                        // TODO Auto-generated method stub
+                        monthString = mon.get(position);
+                    }
 
+                    @Override
+                    public void onNothingSelected(AdapterView<?> arg0) {
+                        // TODO Auto-generated method stub
+                    }
+                });
+                    spinnerYear.setOnItemSelectedListener(MainActivity.this);
 
+//                    // Spinner Drop down elements
+//                    List<String> categories = new ArrayList<String>();
+//                    categories.add("1");
+//                    categories.add("2");
+//                    categories.add("3");
+//                    categories.add("4");
+//                    categories.add("5");
+//                    categories.add("5");
+//
+//                    // Creating adapter for spinner
+//                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_spinner_item, categories);
+//
+//                    // Drop down layout style - list view with radio button
+//                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//
+//                    // attaching data adapter to spinner
+//                    //spinnerDate.setAdapter(dataAdapter);
+//                    //spinnerMonth.setAdapter(dataAdapter);
+//                    //spinnerYear.setAdapter(dataAdapter);
 
                     final EditText setDate = (EditText) inflatedLayout.findViewById(R.id.date_setter);
-
                     final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
                         @Override
@@ -328,10 +374,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
                             setDate.setText(sdf.format(myCal.getTime()));
-
-
                         }
-
                     };
 
                     setDate.setOnClickListener(new View.OnClickListener() {
@@ -350,16 +393,11 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
                         }
-
                         @Override
                         public void afterTextChanged(Editable s) {
-
                         }
                     });
-
-
                     mainLayout.addView(inflatedLayout);
                 }else if (childPosition == 2){
 
