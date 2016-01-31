@@ -13,13 +13,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="22dip"
+            android:textStyle="bold"
             android:paddingTop="25dp"
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:lines="2"
             android:gravity="center_horizontal"
-            android:text="Getting to know red creascent hospital"
+            android:text="Getting To Know Red Crescent Hospital"
             android:textColor="#666666"/>
 
         <TextView
@@ -30,9 +31,10 @@
             android:textSize="17dip"
             android:paddingTop="5dp"
             android:paddingBottom="25dp"
-            android:lines="5"
+            android:gravity="center_horizontal"
+            android:lines="6"
             android:textColor="#666666"
-            android:text="Getting to know red creascent hospital Gsdf aajksdf kads kfhads fkasdhkfahskdf kasdhfkja ksdjf  askdfasdkfasdf asdkjfjasdfjkasdfkjasf s df asdfsdakf ds  dfksdds  k" />
+            android:text="Red Crescent Hospital is a multi-specialty 'one stop' tertiary care hospital of international standard, and is fully committed in the pursuance of excellence by maintaining and providing exceptional standards." />
     </LinearLayout>
 
 </LinearLayout>

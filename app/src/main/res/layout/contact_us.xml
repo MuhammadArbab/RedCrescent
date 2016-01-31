@@ -10,6 +10,7 @@
         android:textSize="27dip"
         android:paddingTop="25dp"
         android:textColor="#666666"
+        android:textStyle="bold"
         android:text="Contact Us:" />
 
     <TextView
@@ -25,7 +26,6 @@
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_Name"
-        android:hint="e.g Abdullah..."
         android:layout_marginLeft="15dp"
         android:singleLine="true"
         android:textColor="#666666"
@@ -47,7 +47,6 @@
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_Email"
-        android:hint="e.g Abdullah..."
         android:layout_marginLeft="15dp"
         android:singleLine="true"
         android:textColor="#666666"
@@ -70,7 +69,6 @@
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_Confirm_Email"
-        android:hint="e.g Abdullah..."
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:singleLine="true"
@@ -92,14 +90,13 @@
 
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:id="@+id/input_Contac_tNumber"
-        android:hint="e.g Abdullah..."
+        android:id="@+id/input_Contact_tNumber"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:singleLine="true"
         android:textColor="#666666"
         android:textColorHint="#666666"
-        android:inputType="textCapWords"
+        android:inputType="phone"
         android:background="@drawable/mystyle"/>
 
     <TextView
@@ -113,10 +110,16 @@
 
     <!-- Spinner Element -->
     <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="fill_parent"
+        android:dropDownWidth="150dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:layout_marginLeft="15dp"
+        android:popupBackground="@android:color/white"
+        android:background="@android:drawable/btn_dropdown"
+        android:id="@+id/spinner"
         android:prompt="@string/spinner_title"/>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -156,7 +159,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:layout_marginTop="15dp"
-            android:background="#666666"
+            android:buttonTint="#666666"
             />
 
         <TextView
@@ -199,4 +202,5 @@
         android:textStyle="bold"
         android:textColor="#666666"
         android:text="Google Map"/>
+
 </LinearLayout>

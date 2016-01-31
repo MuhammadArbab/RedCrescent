@@ -1,16 +1,24 @@
 package com.redcrescent.www.redcrescent;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
@@ -36,9 +44,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -53,6 +65,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     private RadioButton radioSexButton;
     private String currentSex = "";
     private ProgressDialog progress;
+    String contactSubject = "";
+
+    static final String[] Months = new String[] { "Jan","Feb","Mar","Apr","May","June","July","Aug","Sept","Oct","Nov","Dec"};
 
     ArrayList<LanguageModal> languages;
     ArrayList<String> langList;
@@ -65,12 +80,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     Spinner spinnerSpeciality;
     private String speciality_id = "";
 
-
     ArrayList<DoctorModal> doctors;
     ArrayList<String> doctorsList;
     private CustomAdapter adapter;
     ListView doctorsListView;
-
 
     private String urlString = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
             + "email=" + "send2arbab@gmail.com"
@@ -79,7 +92,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             + "&day=" + "2"
             + "&month=" + "4"
             + "&year=" + "1990"
-            + "&gender=" + 1
+            + "&gender=" + "1"
             + "&address=" + ""
             + "&address1=" + ""
             + "&country=" + "Pakistan"
@@ -142,9 +155,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                 }
                 expListView.getLayoutParams().height = (height+6)*5;
 
-                Toast.makeText(getApplicationContext(),
-                        listDataHeader.get(groupPosition) + " Expanded",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),
+//                        listDataHeader.get(groupPosition) + " Expanded",
+//                        Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -161,9 +174,9 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                 }
                 expListView.getLayoutParams().height = -(height+6)*3;
 
-                Toast.makeText(getApplicationContext(),
-                        listDataHeader.get(groupPosition) + " Collapsed",
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),
+//                        listDataHeader.get(groupPosition) + " Collapsed",
+//                        Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -175,14 +188,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
                 // TODO Auto-generated method stub
-                Toast.makeText(
-                        getApplicationContext(),
-                        listDataHeader.get(groupPosition)
-                                + " : "
-                                + listDataChild.get(
-                                listDataHeader.get(groupPosition)).get(
-                                childPosition), Toast.LENGTH_SHORT)
-                        .show();
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        listDataHeader.get(groupPosition)
+//                                + " : "
+//                                + listDataChild.get(
+//                                listDataHeader.get(groupPosition)).get(
+//                                childPosition), Toast.LENGTH_SHORT)
+//                        .show();
 
                 mainLayout.removeAllViews();
                 expListView.collapseGroup(0);
@@ -199,13 +212,41 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                     View inflatedLayout= inflater.inflate(R.layout.getappointed, null);
 
+                    EditText email = (EditText) inflatedLayout.findViewById(R.id.input_Email);
+                    EditText password = (EditText) inflatedLayout.findViewById(R.id.input_Pasword);
+                    EditText name = (EditText) inflatedLayout.findViewById(R.id.input_Name);
+                    EditText address = (EditText) inflatedLayout.findViewById(R.id.input_Address);
+                    final EditText country = (EditText) inflatedLayout.findViewById(R.id.input_CountryName);
+                    EditText phoneNumber = (EditText) inflatedLayout.findViewById(R.id.input_PhoneNumber);
+
+                    final LinearLayout parentView = (LinearLayout) inflatedLayout.findViewById(R.id.subFeildsParent);
+
+
+                    phoneNumber.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+
+                            if (country.getText().toString().equalsIgnoreCase("malaysia")){
+
+                                parentView.getLayoutParams().height = LinearLayout.LayoutParams.WRAP_CONTENT;
+
+                            }
+                            return false;
+                        }
+                    });
+
+
+                    spinnerSpeciality = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpeciality);
+                    new HttpAsyncTaskForSpecialities().execute("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php");
+
                     Button submitButton =  (Button) inflatedLayout.findViewById(R.id.submit);
                     submitButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
 
                             // call AsynTask to perform network operation on separate thread
-                            new HttpAsyncTask().execute(urlString);
+
+                             new HttpAsyncTask().execute(urlString);
 
 
                             //http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?email=mrashid.bsse@gmail.com&password=123&fullname=Rashid&day=05&month=01&year=1988&gender=1&address=Future%20colon&address1=Karchi&country=Malaysia&city=karachi&state=1&pcode=72150&pcnum=0333562634&specialist=3&apdate=30-12-2015&aptime=1&reason=testing&sms=1
@@ -213,9 +254,35 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     });
 
                     // Spinner element
+
+                    // Set days
+                    ArrayList<String> days = new ArrayList<String>();
+                    for (int i = 1; i <= 31; i++) {
+                        days.add(Integer.toString(i));
+                    }
+                    ArrayAdapter<String> adapterDays = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, days);
+
                     Spinner spinnerDate = (Spinner) inflatedLayout.findViewById(R.id.spinnerDate);
+                    spinnerDate.setAdapter(adapterDays);
+
+                    // Set months
+                    ArrayAdapter<String> adapterMonths = new ArrayAdapter<String>(MainActivity.this,
+                            R.layout.spinner_item, Months);
+                    adapterMonths.setDropDownViewResource(R.layout.spinner_item);
+
                     Spinner spinnerMonth = (Spinner) inflatedLayout.findViewById(R.id.spinnerMonth);
+                    spinnerMonth.setAdapter(adapterMonths);
+
+                    // Set years
+                    ArrayList<String> years = new ArrayList<String>();
+                    int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+                    for (int i = 1900; i <= thisYear; i++) {
+                        years.add(Integer.toString(i));
+                    }
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, years);
+
                     Spinner spinnerYear = (Spinner) inflatedLayout.findViewById(R.id.spinnerYear);
+                    spinnerYear.setAdapter(adapter);
 
                     // Spinner click listener
                     spinnerDate.setOnItemSelectedListener(MainActivity.this);
@@ -237,9 +304,61 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
                     // attaching data adapter to spinner
-                    spinnerDate.setAdapter(dataAdapter);
-                    spinnerMonth.setAdapter(dataAdapter);
-                    spinnerYear.setAdapter(dataAdapter);
+                    //spinnerDate.setAdapter(dataAdapter);
+                    //spinnerMonth.setAdapter(dataAdapter);
+                    //spinnerYear.setAdapter(dataAdapter);
+
+
+
+                    final EditText setDate = (EditText) inflatedLayout.findViewById(R.id.date_setter);
+
+                    final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                              int dayOfMonth) {
+                            // TODO Auto-generated method stub
+                            Calendar myCal = Calendar.getInstance();
+
+                            myCal.set(Calendar.YEAR, year);
+                            myCal.set(Calendar.MONTH, monthOfYear);
+                            myCal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                            String myFormat = "MM/dd/yy"; //In which you need put here
+                            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+                            setDate.setText(sdf.format(myCal.getTime()));
+
+
+                        }
+
+                    };
+
+                    setDate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new DatePickerDialog(MainActivity.this, date, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH),
+                                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show();
+                        }
+                    });
+
+                    setDate.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
+
 
                     mainLayout.addView(inflatedLayout);
                 }else if (childPosition == 2){
@@ -252,21 +371,26 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                     doctorsListView = (ListView) inflatedLayout.findViewById(R.id.doctorsList);
 
-
                     Button showAllDoctorsBtn = (Button) inflatedLayout.findViewById(R.id.showAllBtn);
-
                     showAllDoctorsBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
                             new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-search-doctor-all.php");
-
-
-
                         }
                     });
 
                     Button searchDoctorButton = (Button) inflatedLayout.findViewById(R.id.searchBtn);
+                    searchDoctorButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            EditText searchDoctor = (EditText) inflatedLayout.findViewById(R.id.doctorText);
+                            String url = "http://www.wellnessvisit.com/red-crescent/get-search-doctor.php?docName=" + searchDoctor.getText() + "&sp_id=" + speciality_id + "&lng_id=" + lng_id + "&gender=" + "1";
+
+                            //String url_str = String.format("http://www.wellnessvisit.com/red-crescent/get-search-doctor.php?docName=%@&sp_id=%@&lng_id=%@&gender=%@",  searchDoctor.getText(), speciality_id,lng_id,"1");
+                            new HttpAsyncTaskForDoctorsResult().execute(url);
+                        }
+                    });
 
                     GridView grid = (GridView) inflatedLayout.findViewById(R.id.gridView);
 
@@ -277,15 +401,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             "P", "Q", "R", "S", "T",
                             "U", "V", "W", "X", "Y", "Z"};
 
-
                     ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.gridviewitem, letters);
 
                     grid.setAdapter(adapter);
 
                     grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                            Toast.makeText(getApplicationContext(),
-                                    ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+//                            Toast.makeText(getApplicationContext(),
+//                                    ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -322,6 +445,43 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                     View inflatedLayout= inflater.inflate(R.layout.contact_us, null);
 
+                    final EditText name = (EditText) inflatedLayout.findViewById(R.id.input_Name);
+                    final EditText email = (EditText) inflatedLayout.findViewById(R.id.input_Email);
+                    final EditText confirmEmail = (EditText) inflatedLayout.findViewById(R.id.input_Confirm_Email);
+                    final EditText phoneNumber = (EditText) inflatedLayout.findViewById(R.id.input_Contact_tNumber);
+                    final EditText message = (EditText) inflatedLayout.findViewById(R.id.input_Message);
+
+                    final CheckBox acceptedAgreement = (CheckBox) inflatedLayout.findViewById(R.id.checkBox);
+
+                    Button submitButton =  (Button) inflatedLayout.findViewById(R.id.submit);
+                    submitButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            // call AsynTask to perform network operation on separate thread
+
+                            if (confirmEmail.getText().toString().equalsIgnoreCase(email.getText().toString()) &&
+                                    isValidEmail(email.getText())){
+
+                                if ( acceptedAgreement.isChecked()){
+
+                                    String url = "//http://www.wellnessvisit.com/red-crescent/docontactus.php?yname=" + name.getText().toString() + "&email=" + email.getText().toString() + "&cn=" + phoneNumber.getText().toString() + "&subject=" + contactSubject +"&msg=" + message.getText().toString();
+                                    new HttpAsyncTask().execute(url);
+                                }else {
+
+                                    Toast.makeText(MainActivity.this, "Please check that you accpet terma and conditions", Toast.LENGTH_LONG).show();
+
+                                }
+
+
+                            }else {
+
+                                Toast.makeText(MainActivity.this, "Email entered does not match or not a valid one..", Toast.LENGTH_LONG).show();
+                            }
+
+                        }
+                    });
+
                     TextView termsTextView = (TextView) inflatedLayout.findViewById(R.id.agreeText);
                     termsTextView.append("IMPORTANT! Please check this box to confirm that you understand and excpet ");
                     termsTextView.append(getText(R.string.terms_of_use));
@@ -335,10 +495,25 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     contactText.append("and ask for the following extensions :");
 
                     // Spinner element
-                    Spinner spinner = (Spinner) inflatedLayout.findViewById(R.id.spinner);
+                    final Spinner spinner = (Spinner) inflatedLayout.findViewById(R.id.spinner);
 
                     // Spinner click listener
-                    spinner.setOnItemSelectedListener(MainActivity.this);
+                    spinner
+                            .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                                @Override
+                                public void onItemSelected(AdapterView<?> arg0,
+                                                           View arg1, int position, long arg3) {
+                                    // TODO Auto-generated method stub
+                                    contactSubject = spinner.getSelectedItem().toString();
+
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> arg0) {
+                                    // TODO Auto-generated method stub
+                                }
+                            });
 
                     // Spinner Drop down elements
                     List<String> categories = new ArrayList<String>();
@@ -350,7 +525,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, categories);
 
                     // Drop down layout style - list view with radio button
-                    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    dataAdapter.setDropDownViewResource(R.layout.spinner_item);
 
                     // attaching data adapter to spinner
                     spinner.setAdapter(dataAdapter);
@@ -387,7 +562,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         String item = parent.getItemAtPosition(position).toString();
 
         // Showing selected spinner item
-        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
+//        Toast.makeText(parent.getContext(), "Selected: " + item, Toast.LENGTH_LONG).show();
 
     }
 
@@ -403,14 +578,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
         currentSex =  radioSexButton.getText().toString();
 
-        Toast.makeText(MainActivity.this, radioSexButton.getText(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(MainActivity.this, radioSexButton.getText(), Toast.LENGTH_SHORT).show();
 
     }
 
     public void gridItemClickEvent(View v) {
         // does something very interesting
-        Toast.makeText(getApplicationContext(),
-                ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),
+//                ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
     }
 
     private class emailVerificationResult {
@@ -548,7 +723,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             // Spinner adapter
             spinnerSpeciality
                     .setAdapter(new ArrayAdapter<String>(MainActivity.this,
-                            android.R.layout.simple_spinner_dropdown_item,
+                            R.layout.spinner_bigger_item,
                             specialityList));
 
             // Spinner on item click listener
@@ -626,7 +801,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             // Spinner adapter
             spinnerLanguage
                     .setAdapter(new ArrayAdapter<String>(MainActivity.this,
-                            android.R.layout.simple_spinner_dropdown_item,
+                            R.layout.spinner_bigger_item,
                             langList));
 
             // Spinner on item click listener
@@ -718,7 +893,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.UNSPECIFIED);
         int totalHeight = 0;
         View view = null;
-        for (int i = 0; i < listAdapter.getCount() ; i++) {
+        for (int i = 0; i < listAdapter.getCount(); i++) {
             view = listAdapter.getView(i, view, listView);
             if (i == 0)
                 view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -727,7 +902,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             totalHeight += view.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1 )) + 300;
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1)) + 300;
         listView.setLayoutParams(params);
+    }
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 }

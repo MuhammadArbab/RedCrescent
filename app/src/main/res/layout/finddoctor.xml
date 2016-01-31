@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textSize="17dip"
+        android:textSize="27dip"
         android:textStyle="bold"
         android:textColor="#666666"
         android:text="Find Doctor"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -22,17 +34,21 @@
         android:textColor="#666666"
         android:text="Search by first letter of last name"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:orientation="horizontal">
+    </LinearLayout>
 
     <GridView
         android:id="@+id/gridView"
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:columnWidth="50dp"
         android:gravity="center"
         android:numColumns="auto_fit"
-        android:stretchMode="columnWidth" >
+        android:stretchMode="columnWidth">
     </GridView>
-
 
     <TextView
         android:layout_width="wrap_content"
@@ -55,45 +71,60 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:textSize="17dip"
         android:textStyle="bold"
         android:textColor="#666666"
+        android:paddingLeft="15dp"
         android:text="Search by doctor name"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:id="@+id/doctorText"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:singleLine="true"
+        android:textColor="#666666"
+        android:textColorHint="#666666"
+        android:background="@drawable/mystyle"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:textSize="17dip"
         android:textStyle="bold"
+        android:paddingLeft="15dp"
         android:textColor="#666666"
-        android:text="Search by speciality"/>
+        android:text="Search by speciality:"/>
 
     <Spinner
         android:id="@+id/spinnerSpeciality"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:prompt="@string/spinner_title"
-        android:background="@android:drawable/btn_dropdown"
-        />
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:popupBackground="@android:color/white"
+        android:background="@android:drawable/btn_dropdown" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:textSize="17dip"
         android:textStyle="bold"
+        android:paddingLeft="15dp"
         android:textColor="#666666"
-        android:text="Language"/>
+        android:text="Language:"/>
 
     <Spinner
         android:id="@+id/spinnerLanguage"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:prompt="@string/spinner_title"
-        android:background="@android:drawable/btn_dropdown"
-        />
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:popupBackground="@android:color/white"
+        android:background="@android:drawable/btn_dropdown" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -109,8 +140,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_alignParentLeft="true"
-        >
+        android:layout_marginLeft="15dp"
+        android:layout_alignParentLeft="true">
 
         <RadioButton
             android:id="@+id/radioMale"
@@ -138,6 +169,7 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
+        android:background="#294E98"
         android:text="Search" />
 
     <Button
@@ -149,6 +181,7 @@
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
+        android:background="#294E98"
         android:text="Show All" />
 
     <LinearLayout

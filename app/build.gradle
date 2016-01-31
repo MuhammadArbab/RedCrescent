@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.2"
+    buildToolsVersion '23.0.0'
 
     defaultConfig {
         applicationId "com.redcrescent.www.redcrescent"
@@ -21,7 +21,6 @@ android {
 }
 
 dependencies {
-
     compile 'com.android.support:appcompat-v7:23.1.0'
     compile 'com.mcxiaoke.volley:library-aar:1.0.0'
 }
