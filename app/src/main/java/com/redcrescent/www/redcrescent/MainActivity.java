@@ -297,7 +297,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                         public void onClick(View view) {
 
                             // call AsynTask to perform network operation on separate thread
-
                             String dayString = "";
                             String monthString = "";
                             String yearString = "";
