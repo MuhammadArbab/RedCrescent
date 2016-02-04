@@ -289,7 +289,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     spinnerSpecialiest = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpecialiest);
                     spinnerSpeciality = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpeciality);
 
-                    new HttpAsyncTaskForSpecialities().execute("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php");
+                    new HttpAsyncTaskForSpecialitiesForAppointment().execute("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php");
 
                     Button submitButton =  (Button) inflatedLayout.findViewById(R.id.submit);
                     submitButton.setOnClickListener(new View.OnClickListener() {
@@ -301,29 +301,49 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             String monthString = "";
                             String yearString = "";
 
-                            String contactUrll = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
-                                    + "email=" + email.getText().toString()
-                                    + "&password=" + password.getText().toString()
-                                    + "&fullname=" + name.getText().toString()
-                                    + "&day=" + dayString
-                                    + "&month=" + monthString
-                                    + "&year=" + yearString
-                                    + "&gender=" + selectedSex
-                                    + "&address=" + address.getText().toString()
-                                    + "&address1=" + address1.getText().toString()
-                                    + "&country=" + country.getText().toString()
-                                    + "&city=" + city.getText().toString()
-                                    + "&state=" + state.getText().toString()
-                                    + "&pcode=" + zip.getText().toString()
-                                    + "&pcnum=" + phoneNumber.getText().toString()
-                                    + "&specialist=" + specialiestId
-                                    + "&apdate=" + dateString
-                                    + "&aptime=" + selectedTime
-                                    + "&reason=" + message.getText().toString()
-                                    + "&sms=" + smsStatus;
+                            if ( isValidEmail(email.getText())  ){
 
-                            new HttpAsyncTask().execute(contactUrll);
-                            //http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?email=mrashid.bsse@gmail.com&password=123&fullname=Rashid&day=05&month=01&year=1988&gender=1&address=Future%20colon&address1=Karchi&country=Malaysia&city=karachi&state=1&pcode=72150&pcnum=0333562634&specialist=3&apdate=30-12-2015&aptime=1&reason=testing&sms=1
+                                if ( name.getText().length() > 0 ){
+
+                                    if ( message.getText().length() > 0 ){
+
+                                        String contactUrll = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
+                                                + "email=" + email.getText().toString()
+                                                + "&password=" + password.getText().toString()
+                                                + "&fullname=" + name.getText().toString()
+                                                + "&day=" + dayString
+                                                + "&month=" + monthString
+                                                + "&year=" + yearString
+                                                + "&gender=" + selectedSex
+                                                + "&address=" + address.getText().toString()
+                                                + "&address1=" + address1.getText().toString()
+                                                + "&country=" + country.getText().toString()
+                                                + "&city=" + city.getText().toString()
+                                                + "&state=" + state.getText().toString()
+                                                + "&pcode=" + zip.getText().toString()
+                                                + "&pcnum=" + phoneNumber.getText().toString()
+                                                + "&specialist=" + specialiestId
+                                                + "&apdate=" + dateString
+                                                + "&aptime=" + selectedTime
+                                                + "&reason=" + message.getText().toString()
+                                                + "&sms=" + smsStatus;
+
+                                        new HttpAsyncTask().execute(contactUrll);
+
+                                    }else{
+
+                                        Toast.makeText(MainActivity.this, "Please input a reason for appointment", Toast.LENGTH_LONG).show();
+                                    }
+
+                                }else {
+
+                                    Toast.makeText(MainActivity.this, "Please input your name", Toast.LENGTH_LONG).show();
+                                }
+                            }else {
+
+                                Toast.makeText(MainActivity.this, "Email entered does not match or not a valid one..", Toast.LENGTH_LONG).show();
+
+                            }
                         }
                     });
 
@@ -446,12 +466,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     });
                     mainLayout.addView(inflatedLayout);
                 }else if (childPosition == 2){
+                    LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+                    final View inflatedLayout= inflater.inflate(R.layout.finddoctor, null);
+
+                    spinnerSpeciality  = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpeciality);
 
                     new HttpAsyncTaskForLanguage().execute("http://www.wellnessvisit.com/red-crescent/get-all-languages.php");
                     new HttpAsyncTaskForSpecialities().execute("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php");
-
-                    LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
-                    final View inflatedLayout= inflater.inflate(R.layout.finddoctor, null);
 
                     doctorsListView = (ListView) inflatedLayout.findViewById(R.id.doctorsList);
 
@@ -471,7 +492,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             EditText searchDoctor = (EditText) inflatedLayout.findViewById(R.id.doctorText);
                             String url = "http://www.wellnessvisit.com/red-crescent/get-search-doctor.php?docName=" + searchDoctor.getText() + "&sp_id=" + speciality_id + "&lng_id=" + lng_id + "&gender=" + genderString;
 
-                            //String url_str = String.format("http://www.wellnessvisit.com/red-crescent/get-search-doctor.php?docName=%@&sp_id=%@&lng_id=%@&gender=%@",  searchDoctor.getText(), speciality_id,lng_id,"1");
                             new HttpAsyncTaskForDoctorsResult().execute(url);
                         }
                     });
@@ -495,15 +515,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-alphabet-search.php?skey=" + letters[position]);
                         }
                     });
-
-//                    grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                        public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-//
-//                            new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-alphabet-search.php?skey=" + letters[position]);
-////                            Toast.makeText(getApplicationContext(),
-////                                    ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
 
                     spinnerSpeciality = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpeciality);
                     spinnerLanguage = (Spinner) inflatedLayout.findViewById(R.id.spinnerLanguage);
@@ -536,34 +547,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                         }
                     });
-                    // Spinner click listener
-                    //spinnerSpeciality.setOnItemSelectedListener(MainActivity.this);
-                    //spinnerLanguage.setOnItemSelectedListener(MainActivity.this);
-
-                    // Spinner Drop down elements
-                    List<String> categories = new ArrayList<String>();
-                    categories.add("1");
-                    categories.add("2");
-                    categories.add("3");
-                    categories.add("4");
-                    categories.add("5");
-                    categories.add("5");
-
-
-                    // attaching data adapter to spinner
-                    //spinnerLanguage.setAdapter(dataAdapter);
-                    //spinnerSpeciality.setAdapter(dataAdapter);
-
                     mainLayout.addView(inflatedLayout);
-                    //mainLayout.setMinimumHeight(inflatedLayout.getMeasuredHeight());
                 }else if (childPosition == 3){
 
                     LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                     View inflatedLayout= inflater.inflate(R.layout.contact_us, null);
 
-                    final WebView mapView = (WebView) inflatedLayout.findViewById(R.id.webView1);
-                    mapView.setWebViewClient(new MyWebViewClient());
-                    mapView.loadUrl("www.google.com");
+                    WebView webview = (WebView) inflatedLayout.findViewById(R.id.webView1);
+                    webview.setWebViewClient(new WebViewClient());
+                    webview.getSettings().setJavaScriptEnabled(true);
+                    webview.loadUrl("https://www.google.com/maps/place/Karachi,+Pakistan/data=!4m2!3m1!1s0x3eb33e06651d4bbf:0x9cf92f44555a0c23?sa=X&ved=0ahUKEwjah5qcotfKAhUGkY4KHYg4BlkQ8gEIHDAA");
 
                     final EditText name = (EditText) inflatedLayout.findViewById(R.id.input_Name);
                     final EditText email = (EditText) inflatedLayout.findViewById(R.id.input_Email);
@@ -854,6 +847,81 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             // TODO Auto-generated method stub
 
                             speciality_id = specialities.get(position).getId();
+
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> arg0) {
+                            // TODO Auto-generated method stub
+                        }
+                    });
+
+        }
+    }
+
+    private class HttpAsyncTaskForSpecialitiesForAppointment extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress = new ProgressDialog(MainActivity.this);
+            progress.setMessage("Loading...");
+            progress.setIndeterminate(false);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setCancelable(true);
+            progress.show();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            String data = getJSON("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php",10000);
+            return  data;
+        }
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(String result) {
+
+            progress.dismiss();
+            specialities = new ArrayList<SpecialityModal>();
+            specialityList = new ArrayList<String>();
+
+            try {
+                JSONArray jsonArray = new JSONArray(result);
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonobject = jsonArray.getJSONObject(i);
+
+                    SpecialityModal speciality__ = new SpecialityModal();
+                    speciality__.setId(jsonobject.optString("id"));
+                    speciality__.setSpeciality(jsonobject.optString("value"));
+
+                    specialities.add(speciality__);
+
+                    // Populate spinner with country names
+                    specialityList.add(jsonobject.optString("value"));
+                }
+
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // Spinner adapter
+            spinnerSpeciality
+                    .setAdapter(new ArrayAdapter<String>(MainActivity.this,
+                            R.layout.spinner_bigger_item,
+                            specialityList));
+
+            // Spinner on item click listener
+            spinnerSpeciality
+                    .setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+                        @Override
+                        public void onItemSelected(AdapterView<?> arg0,
+                                                   View arg1, int position, long arg3) {
+                            // TODO Auto-generated method stub
+
+                            speciality_id = specialities.get(position).getId();
                             new HttpAsyncTaskForSepcielistDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-doctor-by-speciality.php?sp_id=" + speciality_id);
                         }
 
@@ -876,7 +944,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             progress.setIndeterminate(false);
             progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progress.setCancelable(true);
-            progress.show();
+            //progress.show();
         }
 
         @Override
@@ -1000,7 +1068,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             public void onItemSelected(AdapterView<?> arg0,
                                                        View arg1, int position, long arg3) {
                                 // TODO Auto-generated method stub
-
                                 specialiestId = doctors.get(position).getdoctorName();
                             }
 
@@ -1130,22 +1197,25 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     doctorsList.add(jsonobject.optString("doctorFName") + jsonobject.optString("doctorLName"));
                 }
 
+                if ( !result.equals("[{\"\":\"\"}]\n") ){
 
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_item, doctorsList);
+                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, R.layout.spinner_bigger_item, doctorsList);
 
-                spinnerSpecialiest.setAdapter(adapter);
+                    spinnerSpecialiest.setAdapter(adapter);
 
-                spinnerSpecialiest.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    spinnerSpecialiest.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
 
-                    }
-                });
+                        }
+                    });
+                }
+
 
 //                adapter = new CustomAdapter(MainActivity.this, doctors);
 //                doctorsListView.setAdapter(adapter);
