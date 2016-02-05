@@ -3,6 +3,7 @@ package com.redcrescent.www.redcrescent;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -114,7 +115,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     ListView doctorsListView;
 
     private String specialiestId = "";
-
 
     private String urlString = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
             + "email=" + "send2arbab@gmail.com"
@@ -289,7 +289,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     spinnerSpecialiest = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpecialiest);
                     spinnerSpeciality = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpeciality);
 
-                    new HttpAsyncTaskForSpecialitiesForAppointment().execute("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php");
+                    if ( isOnline() ){
+
+                        new HttpAsyncTaskForSpecialitiesForAppointment().execute("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php");
+
+                    }else {
+
+                        Toast.makeText(MainActivity.this, "Not connected to internet.",
+                                Toast.LENGTH_SHORT).show();
+
+                    }
 
                     Button submitButton =  (Button) inflatedLayout.findViewById(R.id.submit);
                     submitButton.setOnClickListener(new View.OnClickListener() {
@@ -328,7 +337,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                                                 + "&reason=" + message.getText().toString()
                                                 + "&sms=" + smsStatus;
 
-                                        new HttpAsyncTask().execute(contactUrll);
+                                        if ( isOnline() ){
+
+                                            new HttpAsyncTask().execute(contactUrll);
+                                        }else {
+
+                                            Toast.makeText(MainActivity.this, "Not connected to internet.",
+                                                    Toast.LENGTH_SHORT).show();
+                                        }
+
 
                                     }else{
 
@@ -471,8 +488,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                     spinnerSpeciality  = (Spinner) inflatedLayout.findViewById(R.id.spinnerSpeciality);
 
-                    new HttpAsyncTaskForLanguage().execute("http://www.wellnessvisit.com/red-crescent/get-all-languages.php");
-                    new HttpAsyncTaskForSpecialities().execute("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php");
+                    if ( isOnline() ){
+
+                        new HttpAsyncTaskForLanguage().execute("http://www.wellnessvisit.com/red-crescent/get-all-languages.php");
+                        new HttpAsyncTaskForSpecialities().execute("http://www.wellnessvisit.com/red-crescent/get-all-specialties.php");
+
+                    }else {
+
+                        Toast.makeText(MainActivity.this, "Not connected to internet.",
+                                Toast.LENGTH_SHORT).show();
+                    }
 
                     doctorsListView = (ListView) inflatedLayout.findViewById(R.id.doctorsList);
 
@@ -480,7 +505,16 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     showAllDoctorsBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-search-doctor-all.php");
+
+                            if ( isOnline() ){
+
+                                new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-search-doctor-all.php");
+                            }else {
+
+                                Toast.makeText(MainActivity.this, "Not connected to internet.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+
                         }
                     });
 
@@ -492,7 +526,15 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             EditText searchDoctor = (EditText) inflatedLayout.findViewById(R.id.doctorText);
                             String url = "http://www.wellnessvisit.com/red-crescent/get-search-doctor.php?docName=" + searchDoctor.getText() + "&sp_id=" + speciality_id + "&lng_id=" + lng_id + "&gender=" + genderString;
 
-                            new HttpAsyncTaskForDoctorsResult().execute(url);
+                            if ( isOnline() ){
+
+                                new HttpAsyncTaskForDoctorsResult().execute(url);
+
+                            }else {
+
+                                Toast.makeText(MainActivity.this, "Not connected to internet.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
 
@@ -512,7 +554,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                            new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-alphabet-search.php?skey=" + letters[position]);
+                            if ( isOnline() ){
+                                new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-alphabet-search.php?skey=" + letters[position]);
+                            }else {
+                                Toast.makeText(MainActivity.this, "Not connected to internet.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
 
@@ -578,9 +625,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                                 if ( acceptedAgreement.isChecked()){
 
-                                    String url = "http://www.wellnessvisit.com/red-crescent/docontactus.php?yname=" + name.getText().toString() + "&email=" + email.getText().toString() + "&cn=" + phoneNumber.getText().toString() + "&subject=" + contactSubject +"&msg=" + message.getText().toString();
-                                    new HttpAsyncTask().execute(url);
+                                    if ( isOnline() ){
+                                        String url = "http://www.wellnessvisit.com/red-crescent/docontactus.php?yname=" + name.getText().toString() + "&email=" + email.getText().toString() + "&cn=" + phoneNumber.getText().toString() + "&subject=" + contactSubject +"&msg=" + message.getText().toString();
+                                        new HttpAsyncTask().execute(url);
+                                    }else {
 
+                                        Toast.makeText(MainActivity.this, "Not connected to internet.",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                 }else {
                                     Toast.makeText(MainActivity.this, "Please check that you accpet terma and conditions", Toast.LENGTH_LONG).show();
                                 }
@@ -692,11 +744,19 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
     public void gridItemClickEvent(View v) {
         // does something very interesting
-        TextView temp = (TextView) v;
-        Log.e("",""+temp.getText().toString());
-        new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-alphabet-search.php?skey=" + temp.getText().toString());
+
+        if ( isOnline() ){
+
+            TextView temp = (TextView) v;
+            Log.e("",""+temp.getText().toString());
+            new HttpAsyncTaskForDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-alphabet-search.php?skey=" + temp.getText().toString());
 //        Toast.makeText(getApplicationContext(),
 //                ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+        }else{
+
+            Toast.makeText(MainActivity.this, "Not connected to internet.",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     private class emailVerificationResult {
@@ -1266,5 +1326,13 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
         } else {
             return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
         }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager cm  =
+                (ConnectivityManager) getSystemService(this.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null &&
+                cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 }
