@@ -12,8 +12,8 @@
         <ImageView
             android:id="@+id/imageView1"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/header" />
+            android:layout_height="250dp"
+            android:src="@drawable/ic_header" />
 
         <ExpandableListView
             android:id="@+id/lvExp"
