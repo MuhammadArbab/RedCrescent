@@ -154,7 +154,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
         // setting list adapter
         expListView.setAdapter(listAdapter);
-
         expListView.setSelectedChild(0,0,true);
         expListView.expandGroup(0, false);
 
@@ -247,8 +246,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     radioSexGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-
                             //selectedSex = checkedId;
                         }
                     });
@@ -267,12 +264,10 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     final EditText address1 = (EditText) inflatedLayout.findViewById(R.id.input_Address1);
                     final EditText phoneNumber = (EditText) inflatedLayout.findViewById(R.id.input_PhoneNumber);
                     final LinearLayout parentView = (LinearLayout) inflatedLayout.findViewById(R.id.subFeildsParent);
-
                     final EditText country = (EditText) inflatedLayout.findViewById(R.id.input_CountryName);
                     final EditText city = (EditText) inflatedLayout.findViewById(R.id.input_City);
                     final EditText state = (EditText) inflatedLayout.findViewById(R.id.input_State);
                     final EditText zip = (EditText) inflatedLayout.findViewById(R.id.input_ZipCode);
-
                     final EditText message = (EditText) inflatedLayout.findViewById(R.id.input_AppointmentReason);
 
                     phoneNumber.setOnTouchListener(new View.OnTouchListener() {
@@ -345,21 +340,14 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                                             Toast.makeText(MainActivity.this, "Not connected to internet.",
                                                     Toast.LENGTH_SHORT).show();
                                         }
-
-
                                     }else{
-
                                         Toast.makeText(MainActivity.this, "Please input a reason for appointment", Toast.LENGTH_LONG).show();
                                     }
-
                                 }else {
-
                                     Toast.makeText(MainActivity.this, "Please input your name", Toast.LENGTH_LONG).show();
                                 }
                             }else {
-
                                 Toast.makeText(MainActivity.this, "Email entered does not match or not a valid one..", Toast.LENGTH_LONG).show();
-
                             }
                         }
                     });
@@ -460,9 +448,36 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                         }
                     };
 
+                    View.OnFocusChangeListener focusListener = new View.OnFocusChangeListener() {
+                        public void onFocusChange(View v, boolean hasFocus) {
+
+                            new DatePickerDialog(MainActivity.this, date, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH),
+                                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show();
+
+                            if (hasFocus){
+
+                            } else {
+
+                            }
+                        }
+                    };
+
+                    setDate.setOnFocusChangeListener(focusListener);
+
+                    setDate.setOnTouchListener(new View.OnTouchListener()
+                    {
+
+                        public boolean onTouch(View arg0, MotionEvent arg1)
+                        {
+
+                            return false;
+                        }
+                    });
+
                     setDate.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+
                             new DatePickerDialog(MainActivity.this, date, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH),
                                     Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show();
                         }
@@ -473,7 +488,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
                         }
-
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
                         }
@@ -979,10 +993,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                         @Override
                         public void onItemSelected(AdapterView<?> arg0,
                                                    View arg1, int position, long arg3) {
-                            // TODO Auto-generated method stub
 
+                            // TODO Auto-generated method stub
                             speciality_id = specialities.get(position).getId();
-                            new HttpAsyncTaskForSepcielistDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-doctor-by-speciality.php?sp_id=" + speciality_id);
+                            if ( !speciality_id.equals("0")){
+                                new HttpAsyncTaskForSepcielistDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-doctor-by-speciality.php?sp_id=" + speciality_id);
+                            }
                         }
 
                         @Override
@@ -990,7 +1006,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                             // TODO Auto-generated method stub
                         }
                     });
-
         }
     }
 
@@ -1275,8 +1290,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                         }
                     });
                 }
-
-
 //                adapter = new CustomAdapter(MainActivity.this, doctors);
 //                doctorsListView.setAdapter(adapter);
 //                setListViewHeightBasedOnChildren(doctorsListView);
