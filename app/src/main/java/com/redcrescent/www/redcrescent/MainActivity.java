@@ -816,45 +816,56 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
     }
 
     public String getJSON(String url, int timeout) {
-        HttpURLConnection c = null;
-        try {
-            URL u = new URL(url);
-            c = (HttpURLConnection) u.openConnection();
-            c.setRequestMethod("GET");
-            c.setRequestProperty("Content-length", "0");
-            c.setUseCaches(false);
-            c.setAllowUserInteraction(false);
-            c.setConnectTimeout(timeout);
-            c.setReadTimeout(timeout);
-            c.connect();
-            int status = c.getResponseCode();
 
-            switch (status) {
-                case 200:
-                case 201:
-                    BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
-                    StringBuilder sb = new StringBuilder();
-                    String line;
-                    while ((line = br.readLine()) != null) {
-                        sb.append(line+"\n");
+        if ( isOnline() ){
+
+            HttpURLConnection c = null;
+            try {
+                URL u = new URL(url);
+                c = (HttpURLConnection) u.openConnection();
+                c.setRequestMethod("GET");
+                c.setRequestProperty("Content-length", "0");
+                c.setUseCaches(false);
+                c.setAllowUserInteraction(false);
+                c.setConnectTimeout(timeout);
+                c.setReadTimeout(timeout);
+                c.connect();
+                int status = c.getResponseCode();
+
+                switch (status) {
+                    case 200:
+                    case 201:
+                        BufferedReader br = new BufferedReader(new InputStreamReader(c.getInputStream()));
+                        StringBuilder sb = new StringBuilder();
+                        String line;
+                        while ((line = br.readLine()) != null) {
+                            sb.append(line+"\n");
+                        }
+                        br.close();
+                        return sb.toString();
+                }
+
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                if (c != null) {
+                    try {
+                        c.disconnect();
+                    } catch (Exception ex) {
+                        Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
                     }
-                    br.close();
-                    return sb.toString();
-            }
-
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            if (c != null) {
-                try {
-                    c.disconnect();
-                } catch (Exception ex) {
-                    Logger.getLogger(getClass().getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            
+        }else {
+
+            Toast.makeText(MainActivity.this, "Not connected to internet.",
+                    Toast.LENGTH_SHORT).show();
         }
+
+
         return null;
     }
 
@@ -996,7 +1007,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                             // TODO Auto-generated method stub
                             speciality_id = specialities.get(position).getId();
-                            if ( !speciality_id.equals("0")){
+                            if ( !speciality_id.equals("1")){
                                 new HttpAsyncTaskForSepcielistDoctorsResult().execute("http://www.wellnessvisit.com/red-crescent/get-doctor-by-speciality.php?sp_id=" + speciality_id);
                             }
                         }
