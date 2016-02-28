@@ -33,6 +33,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -116,6 +117,8 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
     private String specialiestId = "";
 
+    private ScrollView mainScrollView;
+
     private String urlString = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
             + "email=" + "send2arbab@gmail.com"
             + "&password=" + "12345"
@@ -144,6 +147,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
         mainLayout = (LinearLayout) findViewById(R.id.mainLayout);
 
+        mainScrollView = (ScrollView) findViewById(R.id.parentScrollView);
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
 
@@ -309,39 +313,44 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                                 if ( name.getText().length() > 0 ){
 
-                                    if ( message.getText().length() > 0 ){
+                                    if ( !dateString.equalsIgnoreCase("") ){
 
-                                        String contactUrll = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
-                                                + "email=" + email.getText().toString()
-                                                + "&password=" + password.getText().toString()
-                                                + "&fullname=" + name.getText().toString()
-                                                + "&day=" + dayString
-                                                + "&month=" + monthString
-                                                + "&year=" + yearString
-                                                + "&gender=" + selectedSex
-                                                + "&address=" + address.getText().toString()
-                                                + "&address1=" + address1.getText().toString()
-                                                + "&country=" + country.getText().toString()
-                                                + "&city=" + city.getText().toString()
-                                                + "&state=" + state.getText().toString()
-                                                + "&pcode=" + zip.getText().toString()
-                                                + "&pcnum=" + phoneNumber.getText().toString()
-                                                + "&specialist=" + specialiestId
-                                                + "&apdate=" + dateString
-                                                + "&aptime=" + selectedTime
-                                                + "&reason=" + message.getText().toString()
-                                                + "&sms=" + smsStatus;
+                                        if ( message.getText().length() > 0 ){
 
-                                        if ( isOnline() ){
+                                            String contactUrll = "http://www.wellnessvisit.com/red-crescent/doregisterappointment.php?"
+                                                    + "email=" + email.getText().toString()
+                                                    + "&password=" + password.getText().toString()
+                                                    + "&fullname=" + name.getText().toString()
+                                                    + "&day=" + dayString
+                                                    + "&month=" + monthString
+                                                    + "&year=" + yearString
+                                                    + "&gender=" + selectedSex
+                                                    + "&address=" + address.getText().toString()
+                                                    + "&address1=" + address1.getText().toString()
+                                                    + "&country=" + country.getText().toString()
+                                                    + "&city=" + city.getText().toString()
+                                                    + "&state=" + state.getText().toString()
+                                                    + "&pcode=" + zip.getText().toString()
+                                                    + "&pcnum=" + phoneNumber.getText().toString()
+                                                    + "&specialist=" + specialiestId
+                                                    + "&apdate=" + dateString
+                                                    + "&aptime=" + selectedTime
+                                                    + "&reason=" + message.getText().toString()
+                                                    + "&sms=" + smsStatus;
 
-                                            new HttpAsyncTask().execute(contactUrll);
-                                        }else {
+                                            if ( isOnline() ){
 
-                                            Toast.makeText(MainActivity.this, "Not connected to internet.",
-                                                    Toast.LENGTH_SHORT).show();
+                                                new HttpAsyncTask().execute(contactUrll);
+                                            }else {
+
+                                                Toast.makeText(MainActivity.this, "Not connected to internet.",
+                                                        Toast.LENGTH_SHORT).show();
+                                            }
+                                        }else{
+                                            Toast.makeText(MainActivity.this, "Please input a reason for appointment", Toast.LENGTH_LONG).show();
                                         }
-                                    }else{
-                                        Toast.makeText(MainActivity.this, "Please input a reason for appointment", Toast.LENGTH_LONG).show();
+                                    }else {
+                                        Toast.makeText(MainActivity.this, "Please select appropriate appointment date", Toast.LENGTH_LONG).show();
                                     }
                                 }else {
                                     Toast.makeText(MainActivity.this, "Please input your name", Toast.LENGTH_LONG).show();
@@ -434,27 +443,40 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                         public void onDateSet(DatePicker view, int year, int monthOfYear,
                                               int dayOfMonth) {
                             // TODO Auto-generated method stub
+
                             Calendar myCal = Calendar.getInstance();
 
                             myCal.set(Calendar.YEAR, year);
                             myCal.set(Calendar.MONTH, monthOfYear);
                             myCal.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                            String myFormat = "MM-dd-yy"; //In which you need put here
-                            SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
-                            setDate.setText(sdf.format(myCal.getTime()));
 
-                            dateString = sdf.format(myCal.getTime()).toString();
+                            if (System.currentTimeMillis() > myCal.getTime().getTime()) {
+
+                                Toast.makeText(MainActivity.this, "Please select future date.",
+                                        Toast.LENGTH_SHORT).show();
+
+                                new DatePickerDialog(MainActivity.this, this, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH),
+                                        Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show();
+                            }else {
+
+
+                                String myFormat = "MM-dd-yy"; //In which you need put here
+                                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+                                setDate.setText(sdf.format(myCal.getTime()));
+
+                                dateString = sdf.format(myCal.getTime()).toString();
+                            }
                         }
                     };
 
                     View.OnFocusChangeListener focusListener = new View.OnFocusChangeListener() {
                         public void onFocusChange(View v, boolean hasFocus) {
 
-                            new DatePickerDialog(MainActivity.this, date, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH),
-                                    Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show();
-
                             if (hasFocus){
+
+                                new DatePickerDialog(MainActivity.this, date, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH),
+                                        Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).show();
 
                             } else {
 
@@ -1019,7 +1041,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     });
         }
     }
-
     private class HttpAsyncTaskForLanguage extends AsyncTask<String, Void, String> {
 
         @Override
@@ -1092,7 +1113,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
         }
     }
-
     private class HttpAsyncTaskForGridDoctorsResult extends AsyncTask<String, Void, String> {
 
         @Override
@@ -1172,7 +1192,6 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
             }
         }
     }
-
     private class HttpAsyncTaskForDoctorsResult extends AsyncTask<String, Void, String> {
 
         @Override
@@ -1219,6 +1238,7 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
                     //doctorsList.add(jsonobject.optString("value"));
                 }
 
+                mainScrollView.scrollTo(0, (int) doctorsListView.getBottom());
                 adapter = new CustomAdapter(MainActivity.this, doctors);
                 doctorsListView.setAdapter(adapter);
                 setListViewHeightBasedOnChildren(doctorsListView);
@@ -1228,6 +1248,12 @@ public class MainActivity extends Activity implements AdapterView.OnItemSelected
 
                 if (abc.contains("not found"))
                 {
+                    doctors = new ArrayList<DoctorModal>();
+
+                    adapter = new CustomAdapter(MainActivity.this, doctors);
+                    doctorsListView.setAdapter(adapter);
+                    setListViewHeightBasedOnChildren(doctorsListView);
+
                     Toast.makeText(MainActivity.this,
                             "No record found",
                             Toast.LENGTH_SHORT).show();
