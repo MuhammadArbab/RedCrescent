@@ -23,6 +23,7 @@
         android:text="Your Name:" />
 
     <EditText
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_Name"
@@ -44,6 +45,7 @@
         android:text="Your Email:" />
 
     <EditText
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_Email"
@@ -65,7 +67,7 @@
         android:text="Confirm Email:" />
 
     <EditText
-
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_Confirm_Email"
@@ -87,7 +89,7 @@
         android:text="Contact Number:" />
 
     <EditText
-
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_Contact_tNumber"

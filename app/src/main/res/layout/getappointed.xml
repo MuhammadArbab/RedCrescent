@@ -62,6 +62,7 @@
         android:text="Email Address:" />
 
     <EditText
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_Email"
@@ -83,6 +84,7 @@
         android:text="Password:" />
 
     <EditText
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_Pasword"
@@ -104,6 +106,7 @@
         android:text="Full Name:" />
 
     <EditText
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_Name"
@@ -227,6 +230,7 @@
         android:textColor="#666666"
         android:text="Address:" />
     <EditText
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:lines="2"
         android:layout_height="40dp"
@@ -248,6 +252,7 @@
         android:textColor="#666666"
         android:text="Address:" />
     <EditText
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:lines="2"
         android:layout_height="40dp"
@@ -270,6 +275,7 @@
         android:text="*Country:" />
 
     <EditText
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_CountryName"
@@ -297,6 +303,7 @@
             android:text="City:" />
 
         <EditText
+            android:paddingLeft="5dp"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:id="@+id/input_City"
@@ -318,6 +325,7 @@
             android:text="State:" />
 
         <EditText
+            android:paddingLeft="5dp"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:id="@+id/input_State"
@@ -339,6 +347,7 @@
             android:text="Zip Code:" />
 
         <EditText
+            android:paddingLeft="5dp"
             android:layout_width="fill_parent"
             android:layout_height="40dp"
             android:id="@+id/input_ZipCode"
@@ -362,6 +371,7 @@
         android:text="Phone Number:" />
 
     <EditText
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:id="@+id/input_PhoneNumber"
@@ -413,6 +423,7 @@
         android:text="Appointment Date:" />
 
     <EditText
+        android:paddingLeft="5dp"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
         android:hint="Tap to select date..."
